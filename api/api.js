@@ -5,7 +5,6 @@ const bodyParser = require('body-parser');
 const express = require('express');
 const helmet = require('helmet');
 const http = require('http');
-const mapRoutes = require('express-routes-mapper');
 const cors = require('cors');
 
 /**
@@ -14,6 +13,8 @@ const cors = require('cors');
 const config = require('../config/');
 const dbService = require('./services/db.service');
 const auth = require('./policies/auth.policy');
+import PublicRoutes from './routes/public.routes';
+import Routes from './routes/routes';
 
 // environment: development, staging, testing, production
 const environment = process.env.NODE_ENV;
@@ -23,8 +24,6 @@ const environment = process.env.NODE_ENV;
  */
 const app = express();
 const server = http.Server(app);
-const mappedOpenRoutes = mapRoutes(config.publicRoutes, 'api/controllers/');
-const mappedAuthRoutes = mapRoutes(config.privateRoutes, 'api/controllers/');
 const DB = dbService(environment, config.migrate).start();
 
 // allow cross origin requests
@@ -46,8 +45,8 @@ app.use(bodyParser.json());
 app.all('/private/*', (req, res, next) => auth(req, res, next));
 
 // fill routes for express application
-app.use('/', mappedOpenRoutes);
-app.use('/private', mappedAuthRoutes);
+app.use('/', PublicRoutes);
+app.use('/private', Routes);
 
 server.listen(config.port, () => {
   if (environment !== 'production' &&
