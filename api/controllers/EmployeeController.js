@@ -1,19 +1,19 @@
-const User = require('../models/User');
-const authService = require('../services/auth.service');
-const bcryptService = require('../services/bcrypt.service');
+const Employee = require('../models/Employee');
+const authService = require('../services/AuthService');
+const bcryptService = require('../services/BCryptService');
 
 exports.register = async (req, res) => {
 	const { body } = req;
 
 	if (body.password === body.password2) {
 		try {
-			const user = await User.create({
+			const employee = await Employee.create({
 				email: body.email,
 				password: body.password,
 			});
-			const token = authService().issue({ id: user.id });
+			const token = authService().issue({ id: employee.id });
 
-			return res.status(200).json({ token, user });
+			return res.status(200).json({ token, user: employee });
 		} catch (err) {
 			console.log(err);
 			return res.status(500).json({ msg: 'Internal server error' });
@@ -28,21 +28,21 @@ exports.login = async (req, res) => {
 
 	if (email && password) {
 		try {
-			const user = await User
+			const employee = await Employee
 				.findOne({
 					where: {
 						email,
 					},
 				});
 
-			if (!user) {
+			if (!employee) {
 				return res.status(400).json({ msg: 'Bad Request: User not found' });
 			}
 
-			if (bcryptService().comparePassword(password, user.password)) {
-				const token = authService().issue({ id: user.id });
+			if (bcryptService().comparePassword(password, employee.password)) {
+				const token = authService().issue({ id: employee.id });
 
-				return res.status(200).json({ token, user });
+				return res.status(200).json({ token, user: employee });
 			}
 
 			return res.status(401).json({ msg: 'Unauthorized' });
@@ -67,3 +67,8 @@ exports.validate = async (req, res) => {
 	});
 };
 
+exports.getEmployee = async (req, res) => { };
+exports.getAll = async (req, res) => { };
+exports.createEmployee = async (req, res) => { };
+exports.updateEmployee = async (req, res) => { };
+exports.deleteEmployee = async (req, res) => { };

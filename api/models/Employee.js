@@ -1,7 +1,7 @@
 const Sequelize = require('sequelize');
-const bcryptService = require('../services/bcrypt.service');
+const bcryptService = require('../services/BCryptService');
 
-const sequelize = require('../../config/database');
+const sequelize = require('../../config/Database');
 
 const hooks = {
   beforeCreate(user) {
@@ -9,9 +9,9 @@ const hooks = {
   },
 };
 
-const tableName = 'users';
+const tableName = 'employees';
 
-const User = sequelize.define('User', {
+const Employee = sequelize.define('Employee', {
   email: {
     type: Sequelize.STRING,
     unique: true,
@@ -22,7 +22,7 @@ const User = sequelize.define('User', {
 }, { hooks, tableName });
 
 // eslint-disable-next-line
-User.prototype.toJSON = function () {
+Employee.prototype.toJSON = function () {
   const values = Object.assign({}, this.get());
 
   delete values.password;
@@ -30,4 +30,4 @@ User.prototype.toJSON = function () {
   return values;
 };
 
-module.exports = User;
+module.exports = Employee;

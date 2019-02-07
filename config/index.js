@@ -1,5 +1,5 @@
-const privateRoutes = require('../api/routes/routes');
-const publicRoutes = require('../api/routes/public.routes');
+const privateRoutes = require('../api/routes/Routes');
+const publicRoutes = require('../api/routes/PublicRoutes');
 
 const config = {
   migrate: false,

@@ -1,7 +1,7 @@
 const Sequelize = require('sequelize');
 const path = require('path');
 
-const connection = require('./connection');
+const connection = require('./Connection');
 
 let database;
 

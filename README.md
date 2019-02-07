@@ -1,6 +1,6 @@
-# express-rest-api-boilerplate
+# BugHound-API
 
-> Express REST API with JWT Authentication and support for sqlite, mysql, and postgresql
+> A restful API for the BugHound client
 
 - authentication via [JWT](https://jwt.io/)
 - routes mapping via [express-routes-mapper](https://github.com/aichbauer/express-routes-mapper)

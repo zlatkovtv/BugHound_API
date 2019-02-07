@@ -1,14 +1,14 @@
 {
   "name": "bughound",
   "version": "1.0.0",
-  "description": "A restful API and database for the Bughound client",
+  "description": "A restful API for the Bughound client",
   "author": "Konstantin Zlatkov, Jimmy Chao",
   "private": true,
   "scripts": {
     "start": "npm run nodemon",
     "nodemon": "nodemon --exec npm run dev",
-    "dev": "cross-env NODE_ENV=development babel-node ./api/api.js",
-    "production": "cross-env NODE_ENV=production babel-node ./api/api.js",
+    "dev": "cross-env NODE_ENV=development babel-node ./api/Api.js",
+    "production": "cross-env NODE_ENV=production babel-node ./api/Api.js",
     "lint": "eslint ./api/. ./config/. ./test/.",
     "prepush": "npm test",
     "pretest": "npm run lint"

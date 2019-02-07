@@ -11,10 +11,10 @@ const cors = require('cors');
  * server configuration
  */
 const config = require('../config/');
-const dbService = require('./services/db.service');
-const auth = require('./policies/auth.policy');
-import PublicRoutes from './routes/public.routes';
-import Routes from './routes/routes';
+const dbService = require('./services/DBService');
+const auth = require('./policies/AuthPolicy');
+import PublicRoutes from './routes/PublicRoutes';
+import Routes from './routes/Routes';
 
 // environment: development, staging, testing, production
 const environment = process.env.NODE_ENV;

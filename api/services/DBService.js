@@ -1,4 +1,4 @@
-const database = require('../../config/database');
+const database = require('../../config/Database');
 
 const dbService = (environment, migrate) => {
   const authenticateDB = () => database.authenticate();

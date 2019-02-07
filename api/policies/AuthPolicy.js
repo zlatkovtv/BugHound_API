@@ -1,4 +1,4 @@
-const JWTService = require('../services/auth.service');
+const JWTService = require('../services/AuthService');
 
 // usually: "Authorization: Bearer [token]" or "token: [token]"
 module.exports = (req, res, next) => {
