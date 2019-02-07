@@ -13,8 +13,10 @@
 - Search for bugs on multiple fields
 - Facilities to add, delete or update infomration n program, releases, functional area, employees
 
+## Toolkit
+- ES2018 support via Babel
+- Main technologies - express.js, MySQL
 - authentication via [JWT](https://jwt.io/)
-- current preset for persistent layer is mysql
 - environments for `development`, `testing`, and `production`
 - linting via [eslint](https://github.com/eslint/eslint)
 - integration tests running with [Jest](https://github.com/facebook/jest)
@@ -26,7 +28,7 @@ Start by cloning this repository
 
 ```sh
 # HTTPS
-$ git clone https://github.com/aichbauer/express-rest-api-boilerplate.git
+$ git clone https://github.com/zlatkovtv/BugHound_API.git
 ```
 
 then
