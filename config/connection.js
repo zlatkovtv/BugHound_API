@@ -1,7 +1,6 @@
 const development = {
   database: 'bughound',
   username: 'root',
-  password: 'password',
   host: 'localhost',
   dialect: 'mysql',
 };
