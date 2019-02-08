@@ -10,8 +10,7 @@ import EmployeeController from '../controllers/EmployeeController';
 
 // employees
 router.route('/employees')
-	.get(EmployeeController.getAll)
-	.post(EmployeeController.createEmployee);
+	.get(EmployeeController.getAll);
 
 router.route('/employee/:id')
 	.get(EmployeeController.getEmployee)

@@ -38,7 +38,7 @@ app.use(helmet({
 }));
 
 // parsing the request bodys
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 // secure your private routes with jwt authentication middleware
@@ -46,7 +46,7 @@ app.all('/private/*', (req, res, next) => auth(req, res, next));
 
 // fill routes for express application
 app.use('/', PublicRoutes);
-app.use('/private', Routes);
+app.use('/api/', Routes);
 
 server.listen(config.port, () => {
   if (environment !== 'production' &&

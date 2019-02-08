@@ -11,7 +11,7 @@
 - Store error report contents in relational tables
 - Access error reports content via SQL
 - Search for bugs on multiple fields
-- Facilities to add, delete or update infomration n program, releases, functional area, employees
+- Facilities to add, delete or update information for program, releases, functional area, employees
 
 ## Toolkit
 - ES2018 support via Babel

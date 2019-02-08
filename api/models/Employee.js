@@ -1,33 +1,47 @@
-const Sequelize = require('sequelize');
-const bcryptService = require('../services/BCryptService');
-
-const sequelize = require('../../config/Database');
-
 const hooks = {
-  beforeCreate(user) {
-    user.password = bcryptService().password(user); // eslint-disable-line no-param-reassign
-  },
+	beforeCreate(user) {
+		user.password = bCryptService().password(user); // eslint-disable-line no-param-reassign
+	},
 };
 
 const tableName = 'employees';
 
-const Employee = sequelize.define('Employee', {
-  email: {
-    type: Sequelize.STRING,
-    unique: true,
-  },
-  password: {
-    type: Sequelize.STRING,
-  },
-}, { hooks, tableName });
+module.exports = function (sequelize, DataTypes) {
+	const Employee = sequelize.define('Employee', {
+		ID: {
+			type: DataTypes.INTEGER(11),
+			allowNull: false,
+			primaryKey: true
+		},
+		FIRSTNAME: {
+			type: DataTypes.STRING(32),
+			allowNull: false
+		},
+		LASTNAME: {
+			type: DataTypes.STRING(32),
+			allowNull: false
+		},
+		PASSWORD: {
+			type: DataTypes.STRING(128),
+			allowNull: false
+		},
+		EMAIL: {
+			type: DataTypes.STRING(32),
+			allowNull: true
+		},
+		PHONE: {
+			type: DataTypes.STRING(12),
+			allowNull: true
+		}
+	}, { hooks, tableName });
 
-// eslint-disable-next-line
-Employee.prototype.toJSON = function () {
-  const values = Object.assign({}, this.get());
+	Employee.toJSON = function () {
+		const values = Object.assign({}, this.get());
 
-  delete values.password;
+		delete values.password;
 
-  return values;
+		return values;
+	};
+
+	return Employee
 };
-
-module.exports = Employee;

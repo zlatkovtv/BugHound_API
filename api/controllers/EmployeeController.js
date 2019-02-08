@@ -1,32 +1,35 @@
-const Employee = require('../models/Employee');
+const Employee = require('../models/Employee')
 const authService = require('../services/AuthService');
 const bcryptService = require('../services/BCryptService');
 
-exports.register = async (req, res) => {
-	const { body } = req;
-
-	if (body.password === body.password2) {
-		try {
-			const employee = await Employee.create({
-				email: body.email,
-				password: body.password,
-			});
-			const token = authService().issue({ id: employee.id });
-
-			return res.status(200).json({ token, user: employee });
-		} catch (err) {
-			console.log(err);
-			return res.status(500).json({ msg: 'Internal server error' });
-		}
+exports.register = (req, res) => {
+	const body = req.body;
+	console.log(Employee);
+	if(!body.email || !body.password) {
+		return res.status(400).json({ msg: body });
 	}
 
-	return res.status(400).json({ msg: 'Bad Request: Passwords don\'t match' });
+	Employee.create({
+		FIRSTNAME: body.firstName,
+		LASTNAME: body.lastName,
+		PASSWORD: body.password,
+		EMAIL: body.email,
+		PHONE: body.phone
+	})
+	.then(employee => {
+		const token = authService().issue({ id: employee.id });
+		return res.status(200).json({ token, user: employee });
+	})
+	.catch(err => {
+		console.log(err);
+		return res.status(500).json({ msg: err });
+	});
 };
 
 exports.login = async (req, res) => {
-	const { email, password } = req.body;
+	const { username, password } = req.body;
 
-	if (email && password) {
+	if (username && password) {
 		try {
 			const employee = await Employee
 				.findOne({
@@ -69,6 +72,5 @@ exports.validate = async (req, res) => {
 
 exports.getEmployee = async (req, res) => { };
 exports.getAll = async (req, res) => { };
-exports.createEmployee = async (req, res) => { };
 exports.updateEmployee = async (req, res) => { };
 exports.deleteEmployee = async (req, res) => { };
