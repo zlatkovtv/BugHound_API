@@ -9,14 +9,14 @@ import EmployeeController from '../controllers/EmployeeController';
 // import AttachmentsController from '../controllers/AttachmentsController';
 
 // employees
-router.route('/employees')
-	.get(EmployeeController.getAll);
+// router.route('/employees')
+// 	.get(EmployeeController.getAll);
 
-router.route('/employee/:id')
-	.get(EmployeeController.getEmployee)
-	.post(EmployeeController.register)
-	.put(EmployeeController.updateEmployee)
-	.delete(EmployeeController.deleteEmployee);
+// router.route('/employee/:id')
+// 	.get(EmployeeController.getEmployee)
+// 	.post(EmployeeController.register)
+// 	.put(EmployeeController.updateEmployee)
+// 	.delete(EmployeeController.deleteEmployee);
 
 // 	// employee-programs
 // router.route('/eps')
