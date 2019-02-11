@@ -1,29 +1,36 @@
-/* jshint indent: 2 */
+const Sequelize = require('sequelize');
+const sequelize = require('../../config/Database');
 
-module.exports = function(sequelize, DataTypes) {
-  return sequelize.define('employeeprogram', {
-    ID: {
-      type: DataTypes.INTEGER(11),
-      allowNull: false,
-      primaryKey: true
-    },
-    EMPLOYEEID: {
-      type: DataTypes.INTEGER(11),
-      allowNull: false,
-      references: {
-        model: 'employee',
-        key: 'ID'
-      }
-    },
-    PROGRAMID: {
-      type: DataTypes.STRING(32),
-      allowNull: false,
-      references: {
-        model: 'program',
-        key: 'NAME'
-      }
-    }
-  }, {
-    tableName: 'employeeprogram'
-  });
-};
+const EmployeeProgram = sequelize.define('employeeprogram', {
+	id: {
+		type: Sequelize.INTEGER(11),
+		allowNull: false,
+		autoIncrement: true,
+		primaryKey: true,
+		field: 'ID'
+	},
+	employeeid: {
+		type: Sequelize.INTEGER(11),
+		allowNull: false,
+		references: {
+			model: 'employee',
+			key: 'ID'
+		},
+		field: 'EMPLOYEEID'
+	},
+	programid: {
+		type: Sequelize.STRING(32),
+		allowNull: false,
+		references: {
+			model: 'program',
+			key: 'NAME'
+		},
+		field: 'PROGRAMID'
+	}
+}, {
+		tableName: 'employeeprogram',
+		timestamps: false
+	});
+
+module.exports = EmployeeProgram;
+

@@ -1,29 +1,34 @@
-/* jshint indent: 2 */
+const Sequelize = require('sequelize');
+const sequelize = require('../../config/Database');
 
-module.exports = function(sequelize, DataTypes) {
-  return sequelize.define('attachment', {
+const tableName = 'attachment';
+const Attachment = sequelize.define('attachment', {
     ID: {
-      type: DataTypes.INTEGER(11),
+      type: Sequelize.INTEGER(11),
       allowNull: false,
+      autoIncrement: true,
       primaryKey: true
     },
     FILENAME: {
-      type: DataTypes.STRING(100),
+      type: Sequelize.STRING(100),
       allowNull: false
     },
     DATE_SUBMITTED: {
-      type: DataTypes.DATE,
+      type: Sequelize.DATE,
       allowNull: true
     },
     BUGID: {
-      type: DataTypes.INTEGER(11),
+      type: Sequelize.INTEGER(11),
       allowNull: false,
       references: {
         model: 'bug',
         key: 'BUGID'
       }
     }
-  }, {
-    tableName: 'attachment'
+  },
+  {
+    tableName: tableName,
+    timestamps: false
   });
-};
+  
+  module.exports = Attachment;

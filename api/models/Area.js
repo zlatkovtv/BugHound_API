@@ -1,13 +1,17 @@
-/* jshint indent: 2 */
+const Sequelize = require('sequelize');
+const sequelize = require('../../config/Database');
 
-module.exports = function(sequelize, DataTypes) {
-  return sequelize.define('area', {
+const tableName = 'area';
+const Area = sequelize.define('area', {
     NAME: {
-      type: DataTypes.STRING(32),
+      type: Sequelize.STRING(32),
       allowNull: false,
       primaryKey: true
     }
-  }, {
-    tableName: 'area'
+  },
+  {
+    tableName: tableName,
+    timestamps: false
   });
-};
+  
+  module.exports = Area;

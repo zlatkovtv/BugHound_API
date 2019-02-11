@@ -1,14 +1,16 @@
-/* jshint indent: 2 */
+const Sequelize = require('sequelize');
+const sequelize = require('../../config/Database');
 
-module.exports = function(sequelize, DataTypes) {
-  return sequelize.define('bug', {
+const tableName = 'bug';
+const Bug = sequelize.define('bug', {
     BUGID: {
-      type: DataTypes.INTEGER(11),
+      type: Sequelize.INTEGER(11),
       allowNull: false,
+      autoIncrement: true,
       primaryKey: true
     },
     PROGRAMID: {
-      type: DataTypes.STRING(32),
+      type: Sequelize.STRING(32),
       allowNull: true,
       references: {
         model: 'program',
@@ -16,27 +18,27 @@ module.exports = function(sequelize, DataTypes) {
       }
     },
     REPORT_TYPE: {
-      type: DataTypes.INTEGER(11),
+      type: Sequelize.INTEGER(11),
       allowNull: false
     },
     SEVERITY: {
-      type: DataTypes.INTEGER(11),
+      type: Sequelize.INTEGER(11),
       allowNull: false
     },
     PROBLEM_SUMMARY: {
-      type: DataTypes.STRING(500),
+      type: Sequelize.STRING(500),
       allowNull: false
     },
     PROBLEM_DESCRIPTION: {
-      type: DataTypes.STRING(2000),
+      type: Sequelize.STRING(2000),
       allowNull: false
     },
     SUGGESTED_FIX: {
-      type: DataTypes.STRING(2000),
+      type: Sequelize.STRING(2000),
       allowNull: false
     },
     REPORTED_BY: {
-      type: DataTypes.INTEGER(11),
+      type: Sequelize.INTEGER(11),
       allowNull: true,
       references: {
         model: 'employeeprogram',
@@ -44,15 +46,15 @@ module.exports = function(sequelize, DataTypes) {
       }
     },
     DATE_REPORTED: {
-      type: DataTypes.DATE,
+      type: Sequelize.DATE,
       allowNull: false
     },
     REPRODUCIBLE: {
-      type: DataTypes.BOOLEAN,
+      type: Sequelize.BOOLEAN,
       allowNull: false
     },
     AREA: {
-      type: DataTypes.STRING(32),
+      type: Sequelize.STRING(32),
       allowNull: true,
       references: {
         model: 'area',
@@ -60,7 +62,7 @@ module.exports = function(sequelize, DataTypes) {
       }
     },
     ASSIGNED_TO: {
-      type: DataTypes.INTEGER(11),
+      type: Sequelize.INTEGER(11),
       allowNull: true,
       references: {
         model: 'employeeprogram',
@@ -68,27 +70,27 @@ module.exports = function(sequelize, DataTypes) {
       }
     },
     COMMENTS: {
-      type: DataTypes.STRING(2000),
+      type: Sequelize.STRING(2000),
       allowNull: true
     },
     PRIORITY: {
-      type: DataTypes.INTEGER(11),
+      type: Sequelize.INTEGER(11),
       allowNull: true
     },
     STATUS: {
-      type: DataTypes.INTEGER(11),
+      type: Sequelize.INTEGER(11),
       allowNull: true
     },
     RESOLUTION: {
-      type: DataTypes.INTEGER(11),
+      type: Sequelize.INTEGER(11),
       allowNull: true
     },
     RESOLUTION_VERSION: {
-      type: DataTypes.STRING(10),
+      type: Sequelize.STRING(10),
       allowNull: true
     },
     RESOLVED_BY: {
-      type: DataTypes.INTEGER(11),
+      type: Sequelize.INTEGER(11),
       allowNull: true,
       references: {
         model: 'employeeprogram',
@@ -96,11 +98,11 @@ module.exports = function(sequelize, DataTypes) {
       }
     },
     DATE_RESOLVED: {
-      type: DataTypes.DATE,
+      type: Sequelize.DATE,
       allowNull: true
     },
     RESOLUTION_TESTED_BY: {
-      type: DataTypes.INTEGER(11),
+      type: Sequelize.INTEGER(11),
       allowNull: true,
       references: {
         model: 'employeeprogram',
@@ -108,14 +110,17 @@ module.exports = function(sequelize, DataTypes) {
       }
     },
     RESOLUTION_TESTED_DATE: {
-      type: DataTypes.DATE,
+      type: Sequelize.DATE,
       allowNull: true
     },
     DEFERRED: {
-      type: DataTypes.BOOLEAN,
+      type: Sequelize.BOOLEAN,
       allowNull: true
     }
-  }, {
-    tableName: 'bug'
+  },
+  {
+    tableName: tableName,
+    timestamps: false
   });
-};
+  
+  module.exports = Bug;

@@ -1,39 +1,24 @@
-const Employee = require('../models/Employee')
+const Employee = require('../models/Employee');
+const EmployeeProgram = require('../models/EmployeeProgram');
 const authService = require('../services/AuthService');
 const bcryptService = require('../services/BCryptService');
 
 exports.register = (req, res) => {
 	const body = req.body;
-	console.log(body);
 	if (!body.username || !body.password || !body.firstname || !body.lastname) {
 		return res.status(400).json({ msg: "Body is in incorrect format." });
 	}
 
-	Employee.create({
-		FIRSTNAME: body.firstname,
-		LASTNAME: body.lastname,
-		USERNAME: body.username,
-		PASSWORD: body.password,
-		EMAIL: body.email,
-		PHONE: body.phone,
-		USER_LEVEL: body.userlevel
+	Employee.create(body)
+	.then(employee => {
+		var plain = employee.get({plain:true});
+		const token = 'PLACEHOLDER'
+		return res.status(201).json({ token, employee: plain });
 	})
-		.then(employee => {
-			const token = authService().issue({ id: employee.id });
-			return res.status(200).json({ token, employee: {
-				"id": employee.ID,
-				"firstname": employee.FIRSTNAME,
-				"lastname": employee.LASTNAME,
-				"username": employee.USERNAME,
-				"userlevel": employee.USER_LEVEL,
-				"email": employee.EMAIL,
-				"phone": employee.PHONE
-			}});
-		})
-		.catch(err => {
-			console.log(err);
-			return res.status(500).json({ msg: err });
-		});
+	.catch(err => {
+		console.log(err);
+		return res.status(500).json({ msg: err });
+	});
 };
 
 exports.login = async (req, res) => {
@@ -81,24 +66,16 @@ exports.validate = async (req, res) => {
 };
 
 exports.getEmployee = async (req, res) => {
-	const id = req.param("id");
+	const id = req.params.id;
 	if (!id) {
 		return res.status(404).json({ msg: "Employee not found or ID is missing." });
 	}
 
 	Employee.findById(id)
 	.then(employee => {
-		console.log(employee)
-		const token = authService().issue({ id: employee.id });
-		return res.status(200).json({ token, employee: {
-			"id": employee.ID,
-			"firstname": employee.FIRSTNAME,
-			"lastname": employee.LASTNAME,
-			"username": employee.USERNAME,
-			"userlevel": employee.USER_LEVEL,
-			"email": employee.EMAIL,
-			"phone": employee.PHONE
-		}});
+		var plain = employee.get({plain:true});
+		const token = 'PLACEHOLDER'
+		return res.status(200).json({ token, employee: plain });
 	})
 	.catch(err => {
 		console.log(err);
@@ -106,23 +83,28 @@ exports.getEmployee = async (req, res) => {
 	});
 };
 
+// TODO fix this
 exports.getAll = async (req, res) => {
-	Employee.findAll({
-		raw: true
-	})
+	var programId = req.params.programId;
+	var condition = {};
+	if(programId) {
+		condition["programid"] = programId;
+	}
+	
+	EmployeeProgram.query(
+		`SELECT DISTINCT E.* FROM EMPLOYEES E
+		JOIN EMPLOYEEPROGRAM EP ON E.ID = EP.EMPLOYEEID
+		WHERE EP.PROGRAMID = :programid`, 
+		{
+			model: EMPLOYEE,
+			mapToModel: true,
+			replacements: condition
+		})
 	.then(employees => {
-		var formatted = employees.map(employee => ({
-			"id": employee.ID,
-			"firstname": employee.FIRSTNAME,
-			"lastname": employee.LASTNAME,
-			"username": employee.USERNAME,
-			"userlevel": employee.USER_LEVEL,
-			"email": employee.EMAIL,
-			"phone": employee.PHONE
-		}));
+		var plain = employees.get({plain:true});
 		const token = "placeholder";
 		//authService().issue({ id: employee.id });
-		return res.status(200).json({ token, employees: formatted });
+		return res.status(200).json({ token, employees: plain });
 	})
 	.catch(err => {
 		console.log(err);
@@ -138,31 +120,12 @@ exports.updateEmployee = async (req, res) => {
 	
 	Employee.findById(body.id)
 	.then(foundEmployee => {
-		console.log(body.id);
-		console.log(foundEmployee);
 		if(foundEmployee) {
-			console.log("found");
-			foundEmployee.update({
-				FIRSTNAME: body.firstname,
-				LASTNAME: body.lastname,
-				USERNAME: body.username,
-				PASSWORD: body.password,
-				EMAIL: body.email,
-				PHONE: body.phone,
-				USER_LEVEL: body.userlevel
-			})
+			foundEmployee.update(body)
 			.then(employee => {
-				console.log("success");
-				const token = authService().issue({ id: employee.id });
-				return res.status(200).json({ token, employee: {
-					"id": employee.ID,
-					"firstname": employee.FIRSTNAME,
-					"lastname": employee.LASTNAME,
-					"username": employee.USERNAME,
-					"userlevel": employee.USER_LEVEL,
-					"email": employee.EMAIL,
-					"phone": employee.PHONE
-				}});
+				var plain = employee.get({plain:true});
+				const token = 'PLACEHOLDER'
+				return res.status(200).json({ token, employee: plain });
 			})
 			.catch(err => {
 				console.log(err);
@@ -177,5 +140,22 @@ exports.updateEmployee = async (req, res) => {
 };
 
 exports.deleteEmployee = async (req, res) => {
-	
+	const id = req.params.id;
+	if (!id) {
+		return res.status(404).json({ msg: "Employee not found or ID is missing." });
+	}
+
+	Employee.destroy({
+		where: {
+			id: id
+		}
+	})
+	.then(employee => {
+		const token = authService().issue({ id: employee.id });
+		return res.status(200).json({ msg: "Employee deleted successfully." });
+	})
+	.catch(err => {
+		console.log(err);
+		return res.status(500).json({ msg: err });
+	});
 };

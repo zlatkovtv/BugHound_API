@@ -4,57 +4,70 @@ const bcryptService = require('../services/BCryptService');
 const sequelize = require('../../config/Database');
 
 const hooks = {
-  beforeCreate(user) {
-    user.password = bcryptService().password(user); // eslint-disable-line no-param-reassign
-  },
+	beforeCreate(user) {
+		user.password = bcryptService().password(user); // eslint-disable-line no-param-reassign
+	},
 };
 
 const tableName = 'employee';
 
 const User = sequelize.define('Employee', {
-	ID: {
+	id: {
 		type: Sequelize.INTEGER(11),
 		allowNull: false,
 		primaryKey: true,
-		autoIncrement: true
+		autoIncrement: true,
+		field: 'ID'
 	},
-	FIRSTNAME: {
+	firstname: {
 		type: Sequelize.STRING(32),
-		allowNull: false
+		allowNull: false,
+		field: 'FIRSTNAME'
 	},
-	LASTNAME: {
+	lastname: {
 		type: Sequelize.STRING(32),
-		allowNull: false
+		allowNull: false,
+		field: 'LASTNAME'
 	},
-	USERNAME: {
+	username: {
 		type: Sequelize.STRING(32),
-		allowNull: false
+		allowNull: false,
+		field: 'USERNAME'
 	},
-	PASSWORD: {
+	password: {
 		type: Sequelize.STRING(128),
-		allowNull: false
+		allowNull: false,
+		field: 'PASSWORD'
 	},
-	EMAIL: {
+	email: {
 		type: Sequelize.STRING(32),
-		allowNull: true
+		allowNull: true,
+		field: 'EMAIL'
 	},
-	PHONE: {
+	phone: {
 		type: Sequelize.STRING(12),
-		allowNull: true
+		allowNull: true,
+		field: 'PHONE'
 	},
-	USER_LEVEL: {
+	userlevel: {
 		type: Sequelize.INTEGER(11),
-		allowNull: false
+		allowNull: false,
+		field: 'USER_LEVEL'
 	}
-}, { hooks, tableName });
+}, 
+{
+	hooks: hooks, 
+	tableName: tableName,
+	timestamps: false
+});
 
 // eslint-disable-next-line
 User.prototype.toJSON = function () {
-  const values = Object.assign({}, this.get());
+	const values = Object.assign({}, this.get());
 
-  delete values.password;
+	delete values.password;
 
-  return values;
+	return values;
 };
 
 module.exports = User;
