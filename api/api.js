@@ -10,7 +10,7 @@ const cors = require('cors');
 /**
  * server configuration
  */
-const config = require('../config/');
+const config = require('../config/Configuration');
 const dbService = require('./services/DBService');
 const auth = require('./policies/AuthPolicy');
 import PublicRoutes from './routes/PublicRoutes';

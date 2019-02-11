@@ -1,8 +1,8 @@
 const Sequelize = require('sequelize');
-const sequelize = require('../../config/Database');
+const db = require('../../config/SequelizeFactory');
 
 const tableName = 'bug';
-const Bug = sequelize.define('bug', {
+const Bug = db.define('bug', {
     BUGID: {
       type: Sequelize.INTEGER(11),
       allowNull: false,

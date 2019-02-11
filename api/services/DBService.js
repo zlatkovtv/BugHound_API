@@ -1,4 +1,4 @@
-const database = require('../../config/Database');
+const database = require('../../config/SequelizeFactory');
 
 const dbService = (environment, migrate) => {
   const authenticateDB = () => database.authenticate();

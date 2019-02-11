@@ -1,7 +1,7 @@
 const Sequelize = require('sequelize');
 const bcryptService = require('../services/BCryptService');
 
-const sequelize = require('../../config/Database');
+const db = require('../../config/SequelizeFactory');
 
 const hooks = {
 	beforeCreate(user) {
@@ -11,7 +11,7 @@ const hooks = {
 
 const tableName = 'employee';
 
-const User = sequelize.define('Employee', {
+const User = db.define('Employee', {
 	id: {
 		type: Sequelize.INTEGER(11),
 		allowNull: false,

@@ -1,8 +1,8 @@
 const Sequelize = require('sequelize');
-const sequelize = require('../../config/Database');
+const db = require('../../config/SequelizeFactory');
 
 const tableName = 'attachment';
-const Attachment = sequelize.define('attachment', {
+const Attachment = db.define('attachment', {
     ID: {
       type: Sequelize.INTEGER(11),
       allowNull: false,

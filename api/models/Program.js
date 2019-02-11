@@ -1,9 +1,9 @@
 const Sequelize = require('sequelize');
-const sequelize = require('../../config/Database');
+const db = require('../../config/SequelizeFactory');
 
 const tableName = 'program'
 
-const Program = sequelize.define('Program', {
+const Program = db.define('Program', {
 	name: {
 		type: Sequelize.STRING(32),
 		allowNull: false,

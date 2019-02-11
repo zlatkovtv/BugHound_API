@@ -1,8 +1,8 @@
 const Sequelize = require('sequelize');
-const sequelize = require('../../config/Database');
+const db = require('../../config/SequelizeFactory');
 
 const tableName = 'area';
-const Area = sequelize.define('area', {
+const Area = db.define('area', {
     name: {
       type: Sequelize.STRING(32),
       allowNull: false,

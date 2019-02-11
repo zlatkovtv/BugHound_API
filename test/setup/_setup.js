@@ -2,8 +2,8 @@ const bodyParser = require('body-parser');
 const express = require('express');
 const mapRoutes = require('express-routes-mapper');
 
-const config = require('../../config/');
-const database = require('../../config/database');
+const config = require('../../config/Configuration');
+const database = require('../../config/SequelizeFactory');
 const auth = require('../../api/policies/auth.policy');
 
 const beforeAction = async () => {

@@ -1,7 +1,7 @@
 const Sequelize = require('sequelize');
-const sequelize = require('../../config/Database');
+const db = require('../../config/SequelizeFactory');
 
-const EmployeeProgram = sequelize.define('employeeprogram', {
+const EmployeeProgram = db.define('employeeprogram', {
 	id: {
 		type: Sequelize.INTEGER(11),
 		allowNull: false,
