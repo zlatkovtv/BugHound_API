@@ -1,10 +1,25 @@
 const EmployeeProgram = require('../models/EmployeeProgram');
+const Program = require('../models/Program');
+
+EmployeeProgram.sync();
+Program.sync();
+
+EmployeeProgram.beforeCreate(ep => {
+	var errors = ep.validate();
+	if (errors) {
+		throw new Error(errors);
+	}
+});
+
+Program.beforeCreate(program => {
+	var errors = program.validate();
+	if (errors) {
+		throw new Error(errors);
+	}
+});
 
 exports.createProgram = async (req, res) => {
 	const body = req.body;
-	if (!body.name || !body.datestarted || !body.release || !body.version) {
-		return res.status(400).json({ msg: "Body is in incorrect format." });
-	}
 	
 	Program.create(body)
 	.then(program => {
@@ -12,8 +27,11 @@ exports.createProgram = async (req, res) => {
 		const token = 'PLACEHOLDER'
 		return res.status(201).json({ token, program: plain });
 	})
+	.catch(Sequelize.ValidationError, err => {
+		return res.status(400).json(err);
+	})
 	.catch(err => {
-		return res.status(500).json({ msg: err });
+		return res.status(500).json(err);
 	});
 };
 
@@ -42,9 +60,11 @@ exports.addEmployeeToProgram = async (req, res) => {
 		const token = 'PLACEHOLDER';
 		return res.status(201).json({ token, employeeprogram: plain });
 	})
+	.catch(Sequelize.ValidationError, err => {
+		return res.status(400).json(err);
+	})
 	.catch(err => {
-		console.log(err);
-		return res.status(500).json({ msg: err });
+		return res.status(500).json(err);
 	});
 };
 

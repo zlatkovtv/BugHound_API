@@ -22,37 +22,66 @@ const User = db.define('Employee', {
 	firstname: {
 		type: Sequelize.STRING(32),
 		allowNull: false,
-		field: 'FIRSTNAME'
+		field: 'FIRSTNAME',
+		validate: {
+			notEmpty: true,
+			len: [1, 32]
+		}
 	},
 	lastname: {
 		type: Sequelize.STRING(32),
 		allowNull: false,
-		field: 'LASTNAME'
+		field: 'LASTNAME',
+		validate: {
+			notEmpty: true,
+			len: [1, 32]
+		}
 	},
 	username: {
 		type: Sequelize.STRING(32),
 		allowNull: false,
-		field: 'USERNAME'
+		field: 'USERNAME',
+		validate: {
+			notEmpty: true,
+			len: [5, 32]
+		},
+		unique: true
 	},
 	password: {
 		type: Sequelize.STRING(128),
 		allowNull: false,
-		field: 'PASSWORD'
+		field: 'PASSWORD',
+		validate: {
+			notEmpty: true
+		}
 	},
 	email: {
 		type: Sequelize.STRING(32),
 		allowNull: true,
-		field: 'EMAIL'
+		field: 'EMAIL',
+		validate: {
+			isEmail: true,
+			notEmpty: true,
+			len: [4, 32]
+		},
+		unique: true
 	},
 	phone: {
 		type: Sequelize.STRING(12),
 		allowNull: true,
-		field: 'PHONE'
+		field: 'PHONE',
+		validate: {
+			notEmpty: true,
+			len: [5, 12]
+		}
 	},
 	userlevel: {
 		type: Sequelize.INTEGER(11),
 		allowNull: false,
-		field: 'USER_LEVEL'
+		field: 'USER_LEVEL',
+		validate: {
+			min: 1
+		}
 	}
 }, 
 {

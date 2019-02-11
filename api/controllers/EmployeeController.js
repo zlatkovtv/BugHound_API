@@ -3,22 +3,36 @@ const EmployeeProgram = require('../models/EmployeeProgram');
 const authService = require('../services/AuthService');
 const bcryptService = require('../services/BCryptService');
 
+Employee.sync();
+Employee.beforeCreate(employee => {
+	var errors = employee.validate();
+	if (errors) {
+		throw new Error(errors);
+	}
+});
+
+Employee.beforeUpdate(employee => {
+	var errors = employee.validate();
+	if (errors) {
+		throw new Error(errors);
+	}
+});
+
 exports.register = (req, res) => {
 	const body = req.body;
-	if (!body.username || !body.password || !body.firstname || !body.lastname) {
-		return res.status(400).json({ msg: "Body is in incorrect format." });
-	}
 
 	Employee.create(body)
-	.then(employee => {
-		var plain = employee.get({plain:true});
-		const token = 'PLACEHOLDER'
-		return res.status(201).json({ token, employee: plain });
-	})
-	.catch(err => {
-		console.log(err);
-		return res.status(500).json({ msg: err });
-	});
+		.then(employee => {
+			var plain = employee.get({ plain: true });
+			const token = 'PLACEHOLDER'
+			return res.status(201).json({ token, employee: plain });
+		})
+		.catch(Sequelize.ValidationError, err => {
+			return res.status(400).json(err);
+		})
+		.catch(err => {
+			return res.status(500).json(err);
+		});
 };
 
 exports.login = async (req, res) => {
@@ -72,71 +86,70 @@ exports.getEmployee = async (req, res) => {
 	}
 
 	Employee.findById(id)
-	.then(employee => {
-		var plain = employee.get({plain:true});
-		const token = 'PLACEHOLDER'
-		return res.status(200).json({ token, employee: plain });
-	})
-	.catch(err => {
-		console.log(err);
-		return res.status(500).json({ msg: err });
-	});
+		.then(employee => {
+			var plain = employee.get({ plain: true });
+			const token = 'PLACEHOLDER'
+			return res.status(200).json({ token, employee: plain });
+		})
+		.catch(err => {
+			console.log(err);
+			return res.status(500).json(err);
+		});
 };
 
 // TODO fix this
 exports.getAll = async (req, res) => {
 	var programId = req.params.programId;
 	var condition = {};
-	if(programId) {
+	if (programId) {
 		condition["programid"] = programId;
 	}
-	
+
 	EmployeeProgram.query(
 		`SELECT DISTINCT E.* FROM EMPLOYEES E
 		JOIN EMPLOYEEPROGRAM EP ON E.ID = EP.EMPLOYEEID
-		WHERE EP.PROGRAMID = :programid`, 
+		WHERE EP.PROGRAMID = :programid`,
 		{
 			model: EMPLOYEE,
 			mapToModel: true,
 			replacements: condition
 		})
-	.then(employees => {
-		var plain = employees.get({plain:true});
-		const token = "placeholder";
-		//authService().issue({ id: employee.id });
-		return res.status(200).json({ token, employees: plain });
-	})
-	.catch(err => {
-		console.log(err);
-		return res.status(500).json({ msg: err });
-	});
+		.then(employees => {
+			var plain = employees.get({ plain: true });
+			const token = "placeholder";
+			//authService().issue({ id: employee.id });
+			return res.status(200).json({ token, employees: plain });
+		})
+		.catch(err => {
+			console.log(err);
+			return res.status(500).json({ msg: err });
+		});
 };
 
 exports.updateEmployee = async (req, res) => {
 	const body = req.body;
-	if (!body.id || !body.username || !body.password || !body.firstname || !body.lastname) {
-		return res.status(400).json({ msg: "Body is in incorrect format." });
-	}
-	
+
 	Employee.findById(body.id)
-	.then(foundEmployee => {
-		if(foundEmployee) {
-			foundEmployee.update(body)
-			.then(employee => {
-				var plain = employee.get({plain:true});
-				const token = 'PLACEHOLDER'
-				return res.status(200).json({ token, employee: plain });
-			})
-			.catch(err => {
-				console.log(err);
-				return res.status(500).json({ msg: err });
-			});;
-		}
-	})
-	.catch(err => {
-		console.log(err);
-		return res.status(500).json({ msg: err });
-	});
+		.then(foundEmployee => {
+			if (foundEmployee) {
+				foundEmployee.update(body)
+					.then(employee => {
+						var plain = employee.get({ plain: true });
+						const token = 'PLACEHOLDER'
+						return res.status(200).json({ token, employee: plain });
+					})
+					.catch(Sequelize.ValidationError, err => {
+						return res.status(400).json(err);
+					})
+					.catch(err => {
+						return res.status(500).json(err);
+					});
+			}
+		})
+		.catch(err => {
+			console.log(err);
+			return res.status(500).json(err);
+		});
 };
 
 exports.deleteEmployee = async (req, res) => {
@@ -156,6 +169,6 @@ exports.deleteEmployee = async (req, res) => {
 	})
 	.catch(err => {
 		console.log(err);
-		return res.status(500).json({ msg: err });
+		return res.status(500).json(err);
 	});
 };

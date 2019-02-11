@@ -1,5 +1,20 @@
 const Area = require('../models/Area');
 
+Area.sync();
+Area.beforeCreate(area => {
+	var errors = area.validate();
+	if (errors) {
+		throw new Error(errors);
+	}
+});
+
+Area.beforeUpdate(area => {
+	var errors = area.validate();
+	if (errors) {
+		throw new Error(errors);
+	}
+});
+
 exports.getAllAreas = async (req, res) => {
 	Area.findAll({
 		raw: true
@@ -15,9 +30,6 @@ exports.getAllAreas = async (req, res) => {
 
 exports.createArea = async (req, res) => {
 	const body = req.body;
-	if (!body.name) {
-		return res.status(400).json({ msg: "Area name is missing." });
-	}
 	
 	Area.create(body)
 	.then(area => {
@@ -25,8 +37,11 @@ exports.createArea = async (req, res) => {
 		const token = 'PLACEHOLDER'
 		return res.status(201).json({ token, area: plain });
 	})
+	.catch(Sequelize.ValidationError, err => {
+		return res.status(400).json(err);
+	})
 	.catch(err => {
-		return res.status(500).json({ msg: err });
+		return res.status(500).json(err);
 	});
 };
 
