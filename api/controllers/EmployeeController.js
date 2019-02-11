@@ -151,7 +151,7 @@ exports.deleteEmployee = async (req, res) => {
 		}
 	})
 	.then(employee => {
-		const token = authService().issue({ id: employee.id });
+		const token = 'PLACEHOLDER';
 		return res.status(200).json({ msg: "Employee deleted successfully." });
 	})
 	.catch(err => {

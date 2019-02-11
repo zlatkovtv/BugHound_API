@@ -3,10 +3,11 @@ const sequelize = require('../../config/Database');
 
 const tableName = 'area';
 const Area = sequelize.define('area', {
-    NAME: {
+    name: {
       type: Sequelize.STRING(32),
       allowNull: false,
-      primaryKey: true
+      primaryKey: true,
+      field: 'NAME'
     }
   },
   {

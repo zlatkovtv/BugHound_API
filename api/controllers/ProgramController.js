@@ -47,3 +47,16 @@ exports.addEmployeeToProgram = async (req, res) => {
 		return res.status(500).json({ msg: err });
 	});
 };
+
+exports.getAllPrograms = async (req, res) => {
+	Program.findAll({
+		raw: true
+	})
+	.then(programs => {
+		const token = 'PLACEHOLDER'
+		return res.status(201).json({ token, programs: programs });
+	})
+	.catch(err => {
+		return res.status(500).json({ msg: err });
+	});
+};

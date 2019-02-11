@@ -1,8 +1,15 @@
+// DONE 1. Implement controllers
+
 // TODO GetEmployee (for particular program, so I send in the project name/id and I get the list of employees on that program)
-
-GetArea
-AddArea
-EditArea
-
+// DONE GetArea
+// DONE AddArea
+// DONE EditArea
 // DONE AddProgram
+// DONE GetAllPrograms
 // DONE AddEmployeeToProgram
+
+// DONE 2. Routes - edit routes in a readable manner - get all should be /area/all, delete should be area/:id
+3. Implement validation into sequelize models
+4. employeeprogram
+5. test
+// DONE areas
