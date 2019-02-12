@@ -3,13 +3,15 @@ const db = require('../../config/SequelizeFactory');
 
 const tableName = 'bug';
 const Bug = db.define('bug', {
-	BUGID: {
+	bugid: {
+		field: 'BUGID',
 		type: Sequelize.INTEGER(11),
 		allowNull: false,
 		autoIncrement: true,
 		primaryKey: true
 	},
-	PROGRAMID: {
+	programid: {
+		field: 'PROGRAMID',
 		type: Sequelize.STRING(32),
 		allowNull: true,
 		references: {
@@ -21,7 +23,8 @@ const Bug = db.define('bug', {
 			len: [1, 32]
 		}
 	},
-	REPORT_TYPE: {
+	reporttype: {
+		field: 'REPORT_TYPE',
 		type: Sequelize.INTEGER(11),
 		allowNull: false,
 		validate: {
@@ -29,7 +32,8 @@ const Bug = db.define('bug', {
 			max: 6
 		}
 	},
-	SEVERITY: {
+	severity: {
+		field: 'SEVERITY',
 		type: Sequelize.INTEGER(11),
 		allowNull: false,
 		validate: {
@@ -37,7 +41,8 @@ const Bug = db.define('bug', {
 			max: 3
 		}
 	},
-	PROBLEM_SUMMARY: {
+	problemsummary: {
+		field: 'PROBLEM_SUMMARY',
 		type: Sequelize.STRING(500),
 		allowNull: false,
 		validate: {
@@ -45,7 +50,8 @@ const Bug = db.define('bug', {
 			len: [1, 500]
 		}
 	},
-	PROBLEM_DESCRIPTION: {
+	problemdescription: {
+		field: 'PROBLEM_DESCRIPTION',
 		type: Sequelize.STRING(2000),
 		allowNull: false,
 		validate: {
@@ -53,7 +59,8 @@ const Bug = db.define('bug', {
 			len: [1, 2000]
 		}
 	},
-	SUGGESTED_FIX: {
+	suggestedfix: {
+		field: 'SUGGESTED_FIX',
 		type: Sequelize.STRING(2000),
 		allowNull: false,
 		validate: {
@@ -61,7 +68,8 @@ const Bug = db.define('bug', {
 			len: [1, 2000]
 		}
 	},
-	REPORTED_BY: {
+	reportedby: {
+		field: 'REPORTED_BY',
 		type: Sequelize.INTEGER(11),
 		allowNull: true,
 		references: {
@@ -69,18 +77,21 @@ const Bug = db.define('bug', {
 			key: 'ID'
 		}
 	},
-	DATE_REPORTED: {
+	datereported: {
+		field: 'DATE_REPORTED',
 		type: Sequelize.DATE,
 		allowNull: false,
 		validate: {
 			isDate: true
 		}
 	},
-	REPRODUCIBLE: {
+	reproducible: {
+		field: 'REPRODUCIBLE',
 		type: Sequelize.BOOLEAN,
 		allowNull: false
 	},
-	AREA: {
+	area: {
+		field: 'AREA',
 		type: Sequelize.STRING(32),
 		allowNull: true,
 		references: {
@@ -88,7 +99,8 @@ const Bug = db.define('bug', {
 			key: 'NAME'
 		}
 	},
-	ASSIGNED_TO: {
+	assignedto: {
+		field: 'ASSIGNED_TO',
 		type: Sequelize.INTEGER(11),
 		allowNull: true,
 		references: {
@@ -96,11 +108,13 @@ const Bug = db.define('bug', {
 			key: 'ID'
 		}
 	},
-	COMMENTS: {
+	comments: {
+		field: 'COMMENTS',
 		type: Sequelize.STRING(2000),
 		allowNull: true
 	},
-	PRIORITY: {
+	priority: {
+		field: 'PRIORITY',
 		type: Sequelize.INTEGER(11),
 		allowNull: true,
 		validate: {
@@ -108,7 +122,8 @@ const Bug = db.define('bug', {
 			max: 5
 		}
 	},
-	STATUS: {
+	status: {
+		field: 'STATUS',
 		type: Sequelize.INTEGER(11),
 		allowNull: true,
 		validate: {
@@ -116,7 +131,8 @@ const Bug = db.define('bug', {
 			max: 2
 		}
 	},
-	RESOLUTION: {
+	resolution: {
+		field: 'RESOLUTION',
 		type: Sequelize.INTEGER(11),
 		allowNull: true,
 		validate: {
@@ -124,11 +140,13 @@ const Bug = db.define('bug', {
 			max: 9
 		}
 	},
-	RESOLUTION_VERSION: {
+	resolutionversion: {
+		field: 'RESOLUTION_VERSION',
 		type: Sequelize.STRING(10),
 		allowNull: true
 	},
-	RESOLVED_BY: {
+	resolvedby: {
+		field: 'RESOLVED_BY',
 		type: Sequelize.INTEGER(11),
 		allowNull: true,
 		references: {
@@ -136,14 +154,16 @@ const Bug = db.define('bug', {
 			key: 'ID'
 		}
 	},
-	DATE_RESOLVED: {
+	dateresolved: {
+		field: 'DATE_RESOLVED',
 		type: Sequelize.DATE,
 		allowNull: true,
 		validate: {
 			isDate: true
 		}
 	},
-	RESOLUTION_TESTED_BY: {
+	resolutiontestedby: {
+		field: 'RESOLUTION_TESTED_BY',
 		type: Sequelize.INTEGER(11),
 		allowNull: true,
 		references: {
@@ -151,14 +171,16 @@ const Bug = db.define('bug', {
 			key: 'ID'
 		}
 	},
-	RESOLUTION_TESTED_DATE: {
+	resolutiontesteddate: {
+		field: 'RESOLUTION_TESTED_DATE',
 		type: Sequelize.DATE,
 		allowNull: true,
 		validate: {
 			isDate: true
 		}
 	},
-	DEFERRED: {
+	deferred: {
+		field: 'DEFERRED',
 		type: Sequelize.BOOLEAN,
 		allowNull: true
 	}

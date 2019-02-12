@@ -145,6 +145,8 @@ exports.updateEmployee = async (req, res) => {
 						return res.status(500).json(err);
 					});
 			}
+
+			return res.status(404).json({err: "Employee with such ID not found."});
 		})
 		.catch(err => {
 			console.log(err);

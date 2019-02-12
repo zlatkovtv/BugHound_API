@@ -3,13 +3,15 @@ const db = require('../../config/SequelizeFactory');
 
 const tableName = 'attachment';
 const Attachment = db.define('attachment', {
-	ID: {
+	id: {
+		field: 'ID',
 		type: Sequelize.INTEGER(11),
 		allowNull: false,
 		autoIncrement: true,
 		primaryKey: true
 	},
-	FILENAME: {
+	filename: {
+		field: 'FILENAME',
 		type: Sequelize.STRING(100),
 		allowNull: false,
 		validate: {
@@ -17,7 +19,8 @@ const Attachment = db.define('attachment', {
 			len: [4, 100]
 		}
 	},
-	DATE_SUBMITTED: {
+	datesubmitted: {
+		field: 'DATE_SUBMITTED',
 		type: Sequelize.DATE,
 		allowNull: true,
 		validate: {
@@ -25,7 +28,8 @@ const Attachment = db.define('attachment', {
 			isDate: true
 		}
 	},
-	BUGID: {
+	bugid: {
+		field: 'BUGID',
 		type: Sequelize.INTEGER(11),
 		allowNull: false,
 		references: {

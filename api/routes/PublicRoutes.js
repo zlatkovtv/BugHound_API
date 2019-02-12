@@ -4,9 +4,11 @@ var router = express.Router();
 import EmployeeController from '../controllers/EmployeeController';
 import ProgramController from '../controllers/ProgramController';
 import AreaController from '../controllers/AreaController';
+import BugController from '../controllers/BugController';
+import AttachmentController from '../controllers/AttachmentController';
 
 router.route('employee/all/:programId?')
-.get(EmployeeController.getAll);
+  .get(EmployeeController.getAll);
 
 router.route('/employee')
   //.get(EmployeeController.login)
@@ -14,9 +16,9 @@ router.route('/employee')
   .put(EmployeeController.updateEmployee);
 
 router.route('/employee/:id')
-	.get(EmployeeController.getEmployee)
+  .get(EmployeeController.getEmployee)
   .delete(EmployeeController.deleteEmployee);
-  
+
 // Program and EmployeeProgram
 router.route('/program/all')
   .get(ProgramController.getAllPrograms);
@@ -36,5 +38,24 @@ router.route('/area')
 
 router.route('/area/:name')
   .delete(AreaController.deleteArea);
+
+// Bug
+router.route('/bug/all/:programId?')
+  .get(BugController.getBugs);
+
+router.route('/bug')
+  .post(BugController.createBug)
+  .put(BugController.updateBug);
+
+router.route('/bug/:id')
+  .delete(BugController.deleteBug);
+
+// Attachment
+router.route('/bug/:id/attachments')
+  .get(AttachmentController.getAttachments)
+  .post(AttachmentController.saveAttachment);
+
+router.route('/bug/:id/attachments/:attachmentId')
+  .delete(AttachmentController.deleteAttachment);
 
 module.exports = router;

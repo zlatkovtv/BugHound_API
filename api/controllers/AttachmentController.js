@@ -15,6 +15,14 @@ Attachment.beforeUpdate(attachment => {
 	}
 });
 
-exports.fooBar = async (req, res) => {
+exports.getAttachments = async (req, res) => {
+
+};
+
+exports.saveAttachment = async (req, res) => {
+
+};
+
+exports.deleteAttachment = async (req, res) => {
 
 };
