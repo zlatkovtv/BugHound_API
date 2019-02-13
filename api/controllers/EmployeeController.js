@@ -107,30 +107,41 @@ exports.getAll = async (req, res) => {
 	var condition = {};
 	if (programId) {
 		condition["programid"] = programId;
-	}
 
-	Employee.belongsTo(EmployeeProgram, { foreignKey: 'id'});
-	EmployeeProgram.hasMany(Employee, { foreignKey: 'id' });
-	EmployeeProgram.findAll({
-		where: condition,
-		include: [
-			{
-				model: Employee,
-				required: true
-			}
-		]
-	})
+		Employee.belongsTo(EmployeeProgram, { foreignKey: 'id'});
+		EmployeeProgram.hasMany(Employee, { foreignKey: 'id' });
+		EmployeeProgram.findAll({
+			where: condition,
+			include: [
+				{
+					model: Employee,
+					required: true
+				}
+			]
+		})
+			.then(employees => {
+				var emps = employees.map(em => em.Employees);
+				emps = [].concat.apply([], emps);
+				const token = "placeholder";
+				//authService().issue({ id: employee.id });
+				return res.status(200).json({ token, employees: emps });
+			})
+			.catch(err => {
+				console.log(err);
+				return res.status(500).json({ msg: err });
+			});
+	} else {
+		Employee.findAll({
+			raw: true
+		})
 		.then(employees => {
-			var emps = employees.map(em => em.Employees);
-			emps = [].concat.apply([], emps);
-			const token = "placeholder";
-			//authService().issue({ id: employee.id });
-			return res.status(200).json({ token, employees: emps });
+			const token = 'PLACEHOLDER'
+			return res.status(200).json({ token, employees: employees });
 		})
 		.catch(err => {
-			console.log(err);
 			return res.status(500).json({ msg: err });
 		});
+	}
 };
 
 exports.updateEmployee = async (req, res) => {
