@@ -10,8 +10,7 @@
     "dev": "cross-env NODE_ENV=development babel-node --inspect ./api/Api.js",
     "production": "cross-env NODE_ENV=production babel-node ./api/Api.js",
     "lint": "eslint ./api/. ./config/.",
-    "test": "jest",
-    "prepush": "npm test"
+    "test": "jest"
   },
   "jest": {
     "globals": {
