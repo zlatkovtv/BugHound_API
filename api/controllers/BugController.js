@@ -1,3 +1,4 @@
+const Sequelize = require('sequelize');
 const Bug = require('../models/Bug');
 
 Bug.sync();
@@ -18,7 +19,7 @@ Bug.beforeUpdate(bug => {
 exports.createBug = async (req, res) => {
 	const body = req.body;
 
-	Employee.create(body)
+	Bug.create(body)
 		.then(bug => {
 			var plain = bug.get({ plain: true });
 			const token = 'PLACEHOLDER'
@@ -55,7 +56,6 @@ exports.updateBug = async (req, res) => {
 			return res.status(404).json({err: "Bug with such ID not found."});
 		})
 		.catch(err => {
-			console.log(err);
 			return res.status(500).json(err);
 		});
 };
@@ -93,12 +93,11 @@ exports.deleteBug = async (req, res) => {
 			id: id
 		}
 	})
-	.then(employee => {
+	.then(() => {
 		const token = 'PLACEHOLDER';
-		return res.status(200).json({ msg: "Bug deleted successfully." });
+		return res.status(200).json({ token, msg: "Bug deleted successfully." });
 	})
 	.catch(err => {
-		console.log(err);
 		return res.status(500).json(err);
 	});
 };

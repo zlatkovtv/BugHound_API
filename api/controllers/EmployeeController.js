@@ -1,9 +1,13 @@
+const Sequelize = require('sequelize');
+
 const Employee = require('../models/Employee');
 const EmployeeProgram = require('../models/EmployeeProgram');
+
 const authService = require('../services/AuthService');
 const bcryptService = require('../services/BCryptService');
 
 Employee.sync();
+EmployeeProgram.sync();
 Employee.beforeCreate(employee => {
 	var errors = employee.validate();
 	if (errors) {
@@ -43,7 +47,7 @@ exports.login = async (req, res) => {
 			const employee = await Employee
 				.findOne({
 					where: {
-						email,
+						username: username,
 					},
 				});
 
@@ -105,20 +109,23 @@ exports.getAll = async (req, res) => {
 		condition["programid"] = programId;
 	}
 
-	EmployeeProgram.query(
-		`SELECT DISTINCT E.* FROM EMPLOYEES E
-		JOIN EMPLOYEEPROGRAM EP ON E.ID = EP.EMPLOYEEID
-		WHERE EP.PROGRAMID = :programid`,
-		{
-			model: EMPLOYEE,
-			mapToModel: true,
-			replacements: condition
-		})
+	Employee.belongsTo(EmployeeProgram, { foreignKey: 'id'});
+	EmployeeProgram.hasMany(Employee, { foreignKey: 'id' });
+	EmployeeProgram.findAll({
+		where: condition,
+		include: [
+			{
+				model: Employee,
+				required: true
+			}
+		]
+	})
 		.then(employees => {
-			var plain = employees.get({ plain: true });
+			var emps = employees.map(em => em.Employees);
+			emps = [].concat.apply([], emps);
 			const token = "placeholder";
 			//authService().issue({ id: employee.id });
-			return res.status(200).json({ token, employees: plain });
+			return res.status(200).json({ token, employees: emps });
 		})
 		.catch(err => {
 			console.log(err);

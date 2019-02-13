@@ -1,4 +1,4 @@
-const Attachment = require('../models/Attachment');
+const Attachment = require("../models/Attachment");
 
 Attachment.sync();
 Attachment.beforeCreate(attachment => {
@@ -16,7 +16,25 @@ Attachment.beforeUpdate(attachment => {
 });
 
 exports.getAttachments = async (req, res) => {
+	var bugId = req.params.id;
+	var condition = {};
+	if (bugId) {
+		condition["bugid"] = bugId;
+	}
 
+	Attachment.findAll({
+		where: condition,
+		raw: true
+	})
+		.then(attachments => {
+			const token = "placeholder";
+			//authService().issue({ id: employee.id });
+			return res.status(200).json({ token, bugs: attachments });
+		})
+		.catch(err => {
+			console.log(err);
+			return res.status(500).json({ msg: err });
+		});
 };
 
 exports.saveAttachment = async (req, res) => {

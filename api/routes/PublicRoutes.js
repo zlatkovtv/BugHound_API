@@ -7,7 +7,7 @@ import AreaController from '../controllers/AreaController';
 import BugController from '../controllers/BugController';
 import AttachmentController from '../controllers/AttachmentController';
 
-router.route('employee/all/:programId?')
+router.route('/employee/all/:programId?')
   .get(EmployeeController.getAll);
 
 router.route('/employee')

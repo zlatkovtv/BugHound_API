@@ -1,3 +1,5 @@
+const Sequelize = require('sequelize');
+
 const EmployeeProgram = require('../models/EmployeeProgram');
 const Program = require('../models/Program');
 

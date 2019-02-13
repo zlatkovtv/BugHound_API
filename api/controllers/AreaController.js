@@ -1,3 +1,4 @@
+const Sequelize = require('sequelize');
 const Area = require('../models/Area');
 
 Area.sync();
@@ -56,9 +57,9 @@ exports.deleteArea = async (req, res) => {
 			name: name
 		}
 	})
-	.then(area => {
+	.then(() => {
 		const token = 'PLACEHOLDER';
-		return res.status(200).json({ msg: "Area deleted successfully." });
+		return res.status(200).json({ token, msg: "Area deleted successfully." });
 	})
 	.catch(err => {
 		return res.status(500).json({ msg: err });
