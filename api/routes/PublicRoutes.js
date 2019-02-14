@@ -15,7 +15,7 @@ router.route('/employee')
   .post(EmployeeController.register)
   .put(EmployeeController.updateEmployee);
 
-router.route('/employee/:name')
+router.route('/employee/:id')
   .get(EmployeeController.getEmployee)
   .delete(EmployeeController.deleteEmployee);
 
