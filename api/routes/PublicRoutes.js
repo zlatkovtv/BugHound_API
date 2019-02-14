@@ -15,7 +15,7 @@ router.route('/employee')
   .post(EmployeeController.register)
   .put(EmployeeController.updateEmployee);
 
-router.route('/employee/:id')
+router.route('/employee/:name')
   .get(EmployeeController.getEmployee)
   .delete(EmployeeController.deleteEmployee);
 
@@ -27,7 +27,7 @@ router.route('/program')
   .post(ProgramController.createProgram)
   .put(ProgramController.updateProgram);
 
-router.route('/program/:id')
+router.route('/program/:name')
   .delete(ProgramController.deleteProgram);
 
 router.route('/employeeprogram')
