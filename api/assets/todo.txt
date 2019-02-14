@@ -17,14 +17,6 @@
 TODO
 Attachment module
 
-Fix
-EmployeeController.getAll
+tested - employee, area, program
 
-Check constraints for these methods
-1. EmployeeController.getAll
-2. ProgramController.addEmployeeToProgram
-3. BugController.createBug
-4. BugController.updateBug
-5. AttachmentController.getAttachments
-6. AttachmentController.saveAttachment
-7. AttachmentController.deleteAttachment
+program validation issue

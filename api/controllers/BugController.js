@@ -2,19 +2,19 @@ const Sequelize = require('sequelize');
 const Bug = require('../models/Bug');
 
 Bug.sync();
-Bug.beforeCreate(bug => {
-	var errors = bug.validate();
-	if (errors) {
-		throw new Error(errors);
-	}
-});
+// Bug.beforeCreate(bug => {
+// 	var errors = bug.validate();
+// 	if (errors) {
+// 		throw new Error(errors);
+// 	}
+// });
 
-Bug.beforeUpdate(bug => {
-	var errors = bug.validate();
-	if (errors) {
-		throw new Error(errors);
-	}
-});
+// Bug.beforeUpdate(bug => {
+// 	var errors = bug.validate();
+// 	if (errors) {
+// 		throw new Error(errors);
+// 	}
+// });
 
 exports.createBug = async (req, res) => {
 	const body = req.body;
@@ -26,10 +26,10 @@ exports.createBug = async (req, res) => {
 			return res.status(201).json({ token, bug: plain });
 		})
 		.catch(Sequelize.ValidationError, err => {
-			return res.status(400).json(err);
+			return res.status(400).json({msg: err.message});
 		})
 		.catch(err => {
-			return res.status(500).json(err);
+			return res.status(500).json({msg: err.message});
 		});
 };
 
@@ -46,17 +46,17 @@ exports.updateBug = async (req, res) => {
 						return res.status(200).json({ token, bug: plain });
 					})
 					.catch(Sequelize.ValidationError, err => {
-						return res.status(400).json(err);
+						return res.status(400).json({msg: err.message});
 					})
 					.catch(err => {
-						return res.status(500).json(err);
+						return res.status(500).json({msg: err.message});
 					});
 			}
 
 			return res.status(404).json({err: "Bug with such ID not found."});
 		})
 		.catch(err => {
-			return res.status(500).json(err);
+			return res.status(500).json({msg: err.message});
 		});
 };
 
@@ -78,7 +78,7 @@ exports.getBugs = async (req, res) => {
 	})
 	.catch(err => {
 		console.log(err);
-		return res.status(500).json({ msg: err });
+		return res.status(500).json({msg: err.message});
 	});
 };
 
@@ -98,6 +98,6 @@ exports.deleteBug = async (req, res) => {
 		return res.status(200).json({ token, msg: "Bug deleted successfully." });
 	})
 	.catch(err => {
-		return res.status(500).json(err);
+		return res.status(500).json({msg: err.message});
 	});
 };

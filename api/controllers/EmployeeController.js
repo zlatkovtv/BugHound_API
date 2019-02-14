@@ -8,20 +8,21 @@ const bcryptService = require('../services/BCryptService');
 
 Employee.sync();
 EmployeeProgram.sync();
-Employee.beforeCreate(employee => {
-	var errors = employee.validate();
-	if (errors) {
-		throw new Error(errors);
-	}
-});
+// Employee.beforeCreate(employee => {
+// 	var errors = employee.validate();
+// 	if (errors) {
+// 		throw new Error(errors);
+// 	}
+// });
 
-Employee.beforeUpdate(employee => {
-	var errors = employee.validate();
-	if (errors) {
-		throw new Error(errors);
-	}
-});
+// Employee.beforeUpdate(employee => {
+// 	var errors = employee.validate();
+// 	if (errors) {
+// 		throw new Error(errors);
+// 	}
+// });
 
+// TESTED
 exports.register = (req, res) => {
 	const body = req.body;
 
@@ -32,10 +33,10 @@ exports.register = (req, res) => {
 			return res.status(201).json({ token, employee: plain });
 		})
 		.catch(Sequelize.ValidationError, err => {
-			return res.status(400).json(err);
+			return res.status(400).json({msg: err.message});
 		})
 		.catch(err => {
-			return res.status(500).json(err);
+			return res.status(500).json({msg: err.message});
 		});
 };
 
@@ -97,11 +98,11 @@ exports.getEmployee = async (req, res) => {
 		})
 		.catch(err => {
 			console.log(err);
-			return res.status(500).json(err);
+			return res.status(500).json({msg: err.message});
 		});
 };
 
-// TODO fix this
+// TESTED
 exports.getAll = async (req, res) => {
 	var programId = req.params.programId;
 	var condition = {};
@@ -128,7 +129,7 @@ exports.getAll = async (req, res) => {
 			})
 			.catch(err => {
 				console.log(err);
-				return res.status(500).json({ msg: err });
+				return res.status(500).json({msg: err.message});
 			});
 	} else {
 		Employee.findAll({
@@ -139,39 +140,43 @@ exports.getAll = async (req, res) => {
 			return res.status(200).json({ token, employees: employees });
 		})
 		.catch(err => {
-			return res.status(500).json({ msg: err });
+			return res.status(500).json({msg: err.message});
 		});
 	}
 };
 
+// TESTED
 exports.updateEmployee = async (req, res) => {
 	const body = req.body;
 
 	Employee.findById(body.id)
 		.then(foundEmployee => {
-			if (foundEmployee) {
-				foundEmployee.update(body)
-					.then(employee => {
-						var plain = employee.get({ plain: true });
-						const token = 'PLACEHOLDER'
-						return res.status(200).json({ token, employee: plain });
-					})
-					.catch(Sequelize.ValidationError, err => {
-						return res.status(400).json(err);
-					})
-					.catch(err => {
-						return res.status(500).json(err);
-					});
+			if (!foundEmployee) {
+				return res.status(404).json({err: "Employee with such ID not found."});
 			}
 
-			return res.status(404).json({err: "Employee with such ID not found."});
+			foundEmployee.update(body)
+				.then(employee => {
+					var plain = employee.get({ plain: true });
+					const token = 'PLACEHOLDER'
+					return res.status(200).json({ token, employee: plain });
+				})
+				.catch(Sequelize.ValidationError, err => {
+					return res.status(400).json({msg: err.message});
+				})
+				.catch(err => {
+					return res.status(500).json({msg: err.message});
+				});
+
+			
 		})
 		.catch(err => {
 			console.log(err);
-			return res.status(500).json(err);
+			return res.status(500).json({msg: err.message});
 		});
 };
 
+// TESTED
 exports.deleteEmployee = async (req, res) => {
 	const id = req.params.id;
 	if (!id) {
@@ -189,6 +194,6 @@ exports.deleteEmployee = async (req, res) => {
 	})
 	.catch(err => {
 		console.log(err);
-		return res.status(500).json(err);
+		return res.status(500).json({msg: err.message});
 	});
 };

@@ -6,20 +6,21 @@ const Program = require('../models/Program');
 EmployeeProgram.sync();
 Program.sync();
 
-EmployeeProgram.beforeCreate(ep => {
-	var errors = ep.validate();
-	if (errors) {
-		throw new Error(errors);
-	}
-});
+// EmployeeProgram.beforeCreate(ep => {
+// 	var errors = ep.validate();
+// 	if (errors) {
+// 		throw new Error(errors);
+// 	}
+// });
 
-Program.beforeCreate(program => {
-	var errors = program.validate();
-	if (errors) {
-		throw new Error(errors);
-	}
-});
+// Program.beforeCreate(program => {
+// 	var errors = program.validate();
+// 	if (errors) {
+// 		throw new Error(errors);
+// 	}
+// });
 
+// TESTED
 exports.createProgram = async (req, res) => {
 	const body = req.body;
 	
@@ -30,13 +31,67 @@ exports.createProgram = async (req, res) => {
 		return res.status(201).json({ token, program: plain });
 	})
 	.catch(Sequelize.ValidationError, err => {
-		return res.status(400).json(err);
+		return res.status(400).json({msg: err.message});
 	})
 	.catch(err => {
-		return res.status(500).json(err);
+		return res.status(500).json({msg: err.message});
 	});
 };
 
+// TESTED
+exports.updateProgram = async (req, res) => {
+	const body = req.body;
+
+	Program.findById(body.name)
+		.then(foundProgram => {
+			if (!foundProgram) {
+				return res.status(404).json({err: "Program with such name not found."});
+			}
+
+			foundProgram.update(body)
+				.then(program => {
+					var plain = program.get({ plain: true });
+					const token = 'PLACEHOLDER'
+					return res.status(200).json({ token, program: plain });
+				})
+				.catch(Sequelize.ValidationError, err => {
+					return res.status(400).json({msg: err.message});
+				})
+				.catch(err => {
+					return res.status(500).json({msg: err.message});
+				});
+
+			
+		})
+		.catch(err => {
+			console.log(err);
+			return res.status(500).json({msg: err.message});
+		});
+};
+
+// TESTED
+exports.deleteProgram = async (req, res) => {
+	const name = req.params.name;
+	if (!name) {
+		return res.status(404).json({ msg: "Program not found or ID is missing." });
+	}
+
+	Program.destroy({
+		where: {
+			name: name
+		}
+	})
+	.then(program => {
+		const token = 'PLACEHOLDER';
+		return res.status(200).json({ msg: "Program deleted successfully." });
+	})
+	.catch(err => {
+		console.log(err);
+		return res.status(500).json({msg: err.message});
+	});
+};
+
+// TESTED
 exports.addEmployeeToProgram = async (req, res) => {
 	const body = req.body;
 	const employeeid = body.employeeid;
@@ -63,13 +118,14 @@ exports.addEmployeeToProgram = async (req, res) => {
 		return res.status(201).json({ token, employeeprogram: plain });
 	})
 	.catch(Sequelize.ValidationError, err => {
-		return res.status(400).json(err);
+		return res.status(400).json({msg: err.message});
 	})
 	.catch(err => {
-		return res.status(500).json(err);
+		return res.status(500).json({msg: err.message});
 	});
 };
 
+// TESTED
 exports.getAllPrograms = async (req, res) => {
 	Program.findAll({
 		raw: true
@@ -79,6 +135,6 @@ exports.getAllPrograms = async (req, res) => {
 		return res.status(201).json({ token, programs: programs });
 	})
 	.catch(err => {
-		return res.status(500).json({ msg: err });
+		return res.status(500).json({msg: err.message});
 	});
 };

@@ -8,35 +8,22 @@ const Program = db.define('Program', {
 		type: Sequelize.STRING(32),
 		allowNull: false,
 		primaryKey: true,
-		field: 'NAME',
-		validate: {
-			len: [2, 32],
-			isEmpty: false
-		}
+		field: 'NAME'
 	},
 	datestarted: {
 		type: Sequelize.DATE,
 		allowNull: false,
-		field: 'DATE_STARTED',
-		validate: {
-			isDate: true
-		}
+		field: 'DATE_STARTED'
 	},
 	release: {
 		type: Sequelize.STRING(32),
 		allowNull: false,
-		field: 'RELEASE',
-		validate: {
-			isEmpty: false
-		}
+		field: 'RELEASE'
 	},
 	version: {
 		type: Sequelize.STRING(32),
 		allowNull: false,
-		field: 'VERSION',
-		validate: {
-			isEmpty: false
-		}
+		field: 'VERSION'
 	}
 },
 {

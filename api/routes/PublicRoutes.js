@@ -24,7 +24,11 @@ router.route('/program/all')
   .get(ProgramController.getAllPrograms);
 
 router.route('/program')
-  .post(ProgramController.createProgram);
+  .post(ProgramController.createProgram)
+  .put(ProgramController.updateProgram);
+
+router.route('/program/:id')
+  .delete(ProgramController.deleteProgram);
 
 router.route('/employeeprogram')
   .post(ProgramController.addEmployeeToProgram);
