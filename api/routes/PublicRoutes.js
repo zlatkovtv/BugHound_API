@@ -31,8 +31,8 @@ router.route('/program/:name')
   .delete(ProgramController.deleteProgram);
 
 router.route('/employeeprogram')
-  .post(ProgramController.addEmployeeToProgram);
-
+  .post(ProgramController.addEmployeeToProgram)
+  .get(ProgramController.getAllEmployeeProgram);
 // Area
 router.route('/area/all')
   .get(AreaController.getAllAreas);

@@ -138,3 +138,16 @@ exports.getAllPrograms = async (req, res) => {
 		return res.status(500).json({msg: err.message});
 	});
 };
+
+exports.getAllEmployeeProgram = async (req,res) => {
+	EmployeeProgram.findAll({
+		raw:true
+	})
+	.then(programs=>{
+		const token = 'PLACEHOLDER'
+		return res.status(201).json({token, programs:programs});
+	})
+	.catch(err => {
+		return res.status(500).json({msg: err.message});
+	});
+}
