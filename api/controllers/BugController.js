@@ -90,7 +90,7 @@ exports.deleteBug = async (req, res) => {
 
 	Bug.destroy({
 		where: {
-			id: id
+			"bugid": id
 		}
 	})
 	.then(() => {
