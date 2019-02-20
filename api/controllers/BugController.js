@@ -35,7 +35,6 @@ exports.createBug = async (req, res) => {
 
 exports.updateBug = async (req, res) => {
 	const body = req.body;
-
 	Bug.findById(body.id)
 		.then(foundBug => {
 			if (foundBug) {
@@ -51,9 +50,9 @@ exports.updateBug = async (req, res) => {
 					.catch(err => {
 						return res.status(500).json({msg: err.message});
 					});
+			}	else{
+				return res.status(404).json({err: "Bug with such ID not found."});
 			}
-
-			return res.status(404).json({err: "Bug with such ID not found."});
 		})
 		.catch(err => {
 			return res.status(500).json({msg: err.message});
