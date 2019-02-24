@@ -2,19 +2,6 @@ const Sequelize = require('sequelize');
 const Area = require('../models/Area');
 
 Area.sync();
-// Area.beforeCreate(area => {
-// 	var errors = area.validate();
-// 	if (errors) {
-// 		throw new Error(errors);
-// 	}
-// });
-
-// Area.beforeUpdate(area => {
-// 	var errors = area.validate();
-// 	if (errors) {
-// 		throw new Error(errors);
-// 	}
-// });
 
 // TESTED
 exports.getAllAreas = async (req, res) => {

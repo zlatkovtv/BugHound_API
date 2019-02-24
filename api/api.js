@@ -13,7 +13,7 @@ const cors = require('cors');
 const config = require('../config/Configuration');
 const dbService = require('./services/DBService');
 const auth = require('./policies/AuthPolicy');
-import PublicRoutes from './routes/PublicRoutes';
+import AuthRoutes from './routes/PublicRoutes';
 import Routes from './routes/Routes';
 
 // environment: development, staging, testing, production
@@ -42,10 +42,10 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 // secure your private routes with jwt authentication middleware
-app.all('/private/*', (req, res, next) => auth(req, res, next));
+app.all('/api/*', (req, res, next) => auth(req, res, next));
 
 // fill routes for express application
-app.use('/', PublicRoutes);
+app.use('/authenticate/', AuthRoutes);
 app.use('/api/', Routes);
 
 server.listen(config.port, () => {

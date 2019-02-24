@@ -2,19 +2,6 @@ const Sequelize = require('sequelize');
 const Bug = require('../models/Bug');
 
 Bug.sync();
-// Bug.beforeCreate(bug => {
-// 	var errors = bug.validate();
-// 	if (errors) {
-// 		throw new Error(errors);
-// 	}
-// });
-
-// Bug.beforeUpdate(bug => {
-// 	var errors = bug.validate();
-// 	if (errors) {
-// 		throw new Error(errors);
-// 	}
-// });
 
 exports.createBug = async (req, res) => {
 	const body = req.body;

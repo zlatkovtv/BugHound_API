@@ -8,19 +8,6 @@ const bcryptService = require('../services/BCryptService');
 
 Employee.sync();
 EmployeeProgram.sync();
-// Employee.beforeCreate(employee => {
-// 	var errors = employee.validate();
-// 	if (errors) {
-// 		throw new Error(errors);
-// 	}
-// });
-
-// Employee.beforeUpdate(employee => {
-// 	var errors = employee.validate();
-// 	if (errors) {
-// 		throw new Error(errors);
-// 	}
-// });
 
 // TESTED
 exports.register = (req, res) => {
@@ -29,7 +16,8 @@ exports.register = (req, res) => {
 	Employee.create(body)
 		.then(employee => {
 			var plain = employee.get({ plain: true });
-			const token = 'PLACEHOLDER'
+			const token = authService().issue({ id: employee.id });
+			delete employee.password;
 			return res.status(201).json({ token, employee: plain });
 		})
 		.catch(Sequelize.ValidationError, err => {
@@ -92,6 +80,10 @@ exports.getEmployee = async (req, res) => {
 
 	Employee.findById(id)
 		.then(employee => {
+			if (!employee) {
+				return res.status(404).json({err: "Employee with such ID not found."});
+			}
+
 			var plain = employee.get({ plain: true });
 			const token = 'PLACEHOLDER'
 			return res.status(200).json({ token, employee: plain });

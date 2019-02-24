@@ -6,20 +6,6 @@ const Program = require('../models/Program');
 EmployeeProgram.sync();
 Program.sync();
 
-// EmployeeProgram.beforeCreate(ep => {
-// 	var errors = ep.validate();
-// 	if (errors) {
-// 		throw new Error(errors);
-// 	}
-// });
-
-// Program.beforeCreate(program => {
-// 	var errors = program.validate();
-// 	if (errors) {
-// 		throw new Error(errors);
-// 	}
-// });
-
 // TESTED
 exports.createProgram = async (req, res) => {
 	const body = req.body;

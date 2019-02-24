@@ -2,79 +2,62 @@ import express from 'express';
 var router = express.Router();
 
 import EmployeeController from '../controllers/EmployeeController';
-// import EmployeeProgramController from '../controllers/EmployeeProgramController';
-// import ProgramController from '../controllers/ProgramController';
-// import BugsController from '../controllers/BugsController';
-// import AreasController from '../controllers/AreasController';
-// import AttachmentsController from '../controllers/AttachmentsController';
+import ProgramController from '../controllers/ProgramController';
+import AreaController from '../controllers/AreaController';
+import BugController from '../controllers/BugController';
+import AttachmentController from '../controllers/AttachmentController';
 
-// employees
-// router.route('/employees')
-// 	.get(EmployeeController.getAll);
+router.route('/employee/all/:programId?')
+  .get(EmployeeController.getAll);
 
-// router.route('/employee/:id')
-// 	.get(EmployeeController.getEmployee)
-// 	.post(EmployeeController.register)
-// 	.put(EmployeeController.updateEmployee)
-// 	.delete(EmployeeController.deleteEmployee);
+router.route('/employee')
+  .put(EmployeeController.updateEmployee);
 
-// 	// employee-programs
-// router.route('/eps')
-// 	.get(Em.getAll)
-// 	.post(EmployeeController.createEmployee);
+router.route('/employee/:id')
+  .get(EmployeeController.getEmployee)
+  .delete(EmployeeController.deleteEmployee);
 
-// router.route('/ep/:id')
-// 	.get(EmployeeController.getEmployee)
-// 	.post(EmployeeController.register)
-// 	.put(EmployeeController.updateEmployee)
-// 	.delete(EmployeeController.deleteEmployee);
+// Program and EmployeeProgram
+router.route('/program/all')
+  .get(ProgramController.getAllPrograms);
 
-// 	// programs
-// router.route('/programs')
-// 	.get(EmployeeController.getAll)
-// 	.post(EmployeeController.createEmployee);
+router.route('/program')
+  .post(ProgramController.createProgram)
+  .put(ProgramController.updateProgram);
 
-// router.route('/program/:id')
-// 	.get(EmployeeController.getEmployee)
-// 	.post(EmployeeController.register)
-// 	.put(EmployeeController.updateEmployee)
-// 	.delete(EmployeeController.deleteEmployee);
+router.route('/program/:name')
+  .delete(ProgramController.deleteProgram);
 
-// 	// areas
-// router.route('/areas')
-// 	.get(EmployeeController.getAll)
-// 	.post(EmployeeController.createEmployee);
+router.route('/employeeprogram')
+  .post(ProgramController.addEmployeeToProgram)
+  .get(ProgramController.getAllEmployeeProgram);
+// Area
+router.route('/area/all')
+  .get(AreaController.getAllAreas);
 
-// router.route('/area/:id')
-// 	.get(EmployeeController.getEmployee)
-// 	.post(EmployeeController.register)
-// 	.put(EmployeeController.updateEmployee)
-// 	.delete(EmployeeController.deleteEmployee);
+router.route('/area')
+  .post(AreaController.createArea);
 
-// 	// bugs
-// router.route('/bugs')
-// 	.get(EmployeeController.getEmployee)
-// 	.post(EmployeeController.register)
-// 	.put(EmployeeController.updateEmployee)
-// 	.delete(EmployeeController.deleteEmployee);
+router.route('/area/:name')
+  .delete(AreaController.deleteArea);
 
-// router.route('/bug/:id')
-// 	.get(EmployeeController.getEmployee)
-// 	.post(EmployeeController.register)
-// 	.put(EmployeeController.updateEmployee)
-// 	.delete(EmployeeController.deleteEmployee);
+// Bug
+router.route('/bug/all/:programId?')
+  .get(BugController.getBugs);
 
-// 		// attachments
-// router.route('/attachments')
-// 	.get(EmployeeController.getEmployee)
-// 	.post(EmployeeController.register)
-// 	.put(EmployeeController.updateEmployee)
-// 	.delete(EmployeeController.deleteEmployee);
+router.route('/bug')
+  .post(BugController.createBug)
+  .put(BugController.updateBug);
 
-// router.route('/attachment/:id')
-// 	.get(EmployeeController.getEmployee)
-// 	.post(EmployeeController.register)
-// 	.put(EmployeeController.updateEmployee)
-// 	.delete(EmployeeController.deleteEmployee);
+router.route('/bug/:id')
+  .delete(BugController.deleteBug);
+
+// Attachment
+router.route('/bug/:id/attachments')
+  .get(AttachmentController.getAttachments)
+  .post(AttachmentController.saveAttachment);
+
+router.route('/bug/:id/attachments/:attachmentId')
+  .delete(AttachmentController.deleteAttachment);
 
 module.exports = router;
