@@ -53,11 +53,11 @@ router.route('/bug/:id')
   .delete(BugController.deleteBug);
 
 // Attachment
-router.route('/bug/:id/attachments')
+router.route('/attachment/:bugId')
   .get(AttachmentController.getAttachments)
   .post(AttachmentController.saveAttachment);
 
-router.route('/bug/:id/attachments/:attachmentId')
+router.route('/attachment/:attachmentId')
   .delete(AttachmentController.deleteAttachment);
 
 module.exports = router;
