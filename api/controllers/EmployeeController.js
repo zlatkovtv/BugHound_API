@@ -17,7 +17,7 @@ exports.register = (req, res) => {
 		.then(employee => {
 			var plain = employee.get({ plain: true });
 			const token = authService().issue({ id: employee.id });
-			delete employee.password;
+			delete plain.password;
 			return res.status(201).json({ token, employee: plain });
 		})
 		.catch(Sequelize.ValidationError, err => {
@@ -46,7 +46,7 @@ exports.login = async (req, res) => {
 
 			if (bcryptService().comparePassword(password, employee.password)) {
 				const token = authService().issue({ id: employee.id });
-
+				delete employee.password;
 				return res.status(200).json({ token, user: employee });
 			}
 

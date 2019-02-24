@@ -28,7 +28,7 @@ exports.createProgram = async (req, res) => {
 exports.updateProgram = async (req, res) => {
 	const body = req.body;
 
-	Program.findById(body.name)
+	Program.findById(body.id)
 		.then(foundProgram => {
 			if (!foundProgram) {
 				return res.status(404).json({err: "Program with such name not found."});

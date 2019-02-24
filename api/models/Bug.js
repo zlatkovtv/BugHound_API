@@ -12,15 +12,11 @@ const Bug = db.define('bug', {
 	},
 	programid: {
 		field: 'PROGRAMID',
-		type: Sequelize.STRING(32),
+		type: Sequelize.INTEGER(11),
 		allowNull: true,
 		references: {
 			model: 'program',
-			key: 'NAME'
-		},
-		validate: {
-			notEmpty: true,
-			len: [1, 32]
+			key: 'ID'
 		}
 	},
 	reporttype: {

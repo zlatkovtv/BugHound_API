@@ -19,11 +19,11 @@ const EmployeeProgram = db.define('employeeprogram', {
 		field: 'EMPLOYEEID'
 	},
 	programid: {
-		type: Sequelize.STRING(32),
+		type: Sequelize.INTEGER(11),
 		allowNull: false,
 		references: {
 			model: 'program',
-			key: 'NAME'
+			key: 'ID'
 		},
 		field: 'PROGRAMID'
 	}
