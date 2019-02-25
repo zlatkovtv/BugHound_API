@@ -47,10 +47,10 @@ exports.updateBug = async (req, res) => {
 };
 
 exports.getBugs = async (req, res) => {
-	var programId = req.params.programId;
+	var assignedTo = req.params.assignedTo;
 	var condition = {};
-	if (programId) {
-		condition["programid"] = programId;
+	if (assignedTo) {
+		condition["assignedto"] = assignedTo;
 	}
 
 	Bug.findAll({

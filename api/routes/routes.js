@@ -43,7 +43,7 @@ router.route('/area/:name')
   .delete(AreaController.deleteArea);
 
 // Bug
-router.route('/bug/all/:programId?')
+router.route('/bug/all/:assignedTo?')
   .get(BugController.getBugs);
 
 router.route('/bug')
