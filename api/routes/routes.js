@@ -6,6 +6,7 @@ import ProgramController from '../controllers/ProgramController';
 import AreaController from '../controllers/AreaController';
 import BugController from '../controllers/BugController';
 import AttachmentController from '../controllers/AttachmentController';
+import DashboardController from '../controllers/DashboardController';
 
 router.route('/employee/all/:programId?')
   .get(EmployeeController.getAll);
@@ -59,5 +60,16 @@ router.route('/attachment/:bugId')
 
 router.route('/attachment/:attachmentId')
   .delete(AttachmentController.deleteAttachment);
+
+// Dashboard data
+router.route('/data/getBugsPerProgram')
+  .get(DashboardController.getBugsPerProgram);
+
+router.route('/data/getBugsPerPriority')
+  .get(DashboardController.getBugsPerPriority);
+
+router.route('/data/getBugsPerSeverity')
+  .get(DashboardController.getBugsPerSeverity);
+
 
 module.exports = router;
