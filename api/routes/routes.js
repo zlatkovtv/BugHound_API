@@ -62,14 +62,16 @@ router.route('/attachment/:attachmentId')
   .delete(AttachmentController.deleteAttachment);
 
 // Dashboard data
-router.route('/data/getBugsPerProgram')
+router.route('/data/getBugsPerProgram/:userId')
   .get(DashboardController.getBugsPerProgram);
 
-router.route('/data/getBugsPerPriority')
+router.route('/data/getBugsPerPriority/:userId')
   .get(DashboardController.getBugsPerPriority);
 
-router.route('/data/getBugsPerSeverity')
+router.route('/data/getBugsPerSeverity/:userId')
   .get(DashboardController.getBugsPerSeverity);
 
+router.route('/data/getUnassignedBugs/')
+  .get(DashboardController.getUnassignedBugs);
 
 module.exports = router;

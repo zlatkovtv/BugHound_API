@@ -9,9 +9,16 @@ Bug.sync();
 Program.sync();
 
 exports.getBugsPerProgram = async (req, res) => {
+	var userId = req.params.userId;
+	if(!userId) {
+		return res.status(404).json({msg: "No userId found in request."})
+	}
 	Program.belongsTo(Bug, { foreignKey: 'id'});
 	Bug.hasMany(Program, { foreignKey: 'id' });
 	Bug.findAll({
+		where: {
+			assignedto: userId
+		},
 		raw: true,
 		group: ['programid'],
 		include: [{
@@ -37,7 +44,14 @@ exports.getBugsPerProgram = async (req, res) => {
 };
 
 exports.getBugsPerPriority = async (req, res) => {
+	var userId = req.params.userId;
+	if(!userId) {
+		return res.status(404).json({msg: "No userId found in request."})
+	}
 	Bug.findAll({
+		where: {
+			assignedto: userId
+		},
 		raw: true,
 		group: ['priority'],
 		attributes: ['priority', [
@@ -55,13 +69,36 @@ exports.getBugsPerPriority = async (req, res) => {
 };
 
 exports.getBugsPerSeverity = async (req, res) => {
+	var userId = req.params.userId;
+	if(!userId) {
+		return res.status(404).json({msg: "No userId found in request."})
+	}
 	Bug.findAll({
+		where: {
+			assignedto: userId
+		},
 		raw: true,
 		group: ['severity'],
 		attributes: ['severity', [
 			Sequelize.fn('COUNT', 'severity'), 
 			'bugscount']
 		]
+	})
+	.then(bugs => {
+		const token = 'PLACEHOLDER'
+		return res.status(200).json({ token, bugs: bugs });
+	})
+	.catch(err => {
+		return res.status(500).json({msg: err.message});
+	});
+};
+
+exports.getUnassignedBugs = async (req, res) => {
+	Bug.findAll({
+		where: {
+			assignedto: null
+		},
+		raw: true
 	})
 	.then(bugs => {
 		const token = 'PLACEHOLDER'
