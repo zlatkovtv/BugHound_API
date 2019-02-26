@@ -14,7 +14,11 @@ const Program = db.define('Program', {
 	name: {
 		type: Sequelize.STRING(32),
 		allowNull: false,
-		field: 'NAME'
+		field: 'NAME',
+		validate: {
+			notEmpty: true,
+			len: [1, 32]
+		}
 	},
 	datestarted: {
 		type: Sequelize.DATE,
@@ -24,12 +28,20 @@ const Program = db.define('Program', {
 	release: {
 		type: Sequelize.STRING(32),
 		allowNull: false,
-		field: 'RELEASE'
+		field: 'RELEASE',
+		validate: {
+			notEmpty: true,
+			len: [1, 32]
+		}
 	},
 	version: {
 		type: Sequelize.STRING(32),
 		allowNull: false,
-		field: 'VERSION'
+		field: 'VERSION',
+		validate: {
+			notEmpty: true,
+			len: [1, 32]
+		}
 	}
 },
 {
