@@ -69,7 +69,7 @@ const Bug = db.define('bug', {
 		type: Sequelize.INTEGER(11),
 		allowNull: true,
 		references: {
-			model: 'employeeprogram',
+			model: 'employee',
 			key: 'ID'
 		}
 	},
@@ -100,7 +100,7 @@ const Bug = db.define('bug', {
 		type: Sequelize.INTEGER(11),
 		allowNull: true,
 		references: {
-			model: 'employeeprogram',
+			model: 'employee',
 			key: 'ID'
 		}
 	},
@@ -146,7 +146,7 @@ const Bug = db.define('bug', {
 		type: Sequelize.INTEGER(11),
 		allowNull: true,
 		references: {
-			model: 'employeeprogram',
+			model: 'employee',
 			key: 'ID'
 		}
 	},
@@ -163,7 +163,7 @@ const Bug = db.define('bug', {
 		type: Sequelize.INTEGER(11),
 		allowNull: true,
 		references: {
-			model: 'employeeprogram',
+			model: 'employee',
 			key: 'ID'
 		}
 	},
