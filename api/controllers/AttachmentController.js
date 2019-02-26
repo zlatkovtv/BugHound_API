@@ -93,3 +93,9 @@ exports.deleteAttachment = async (req, res) => {
 			return res.status(500).json({ msg: err.message });
 		});
 };
+
+exports.download = async (req,res) =>{
+	const name = req.params.name;
+	var directory = __dirname.substring(0,__dirname.length-11);
+	res.download(directory+"/assets/"+name);
+}

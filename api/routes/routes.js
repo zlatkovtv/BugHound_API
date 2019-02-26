@@ -52,7 +52,9 @@ router.route('/bug')
 
 router.route('/bug/:id')
   .delete(BugController.deleteBug);
-
+  
+router.route('/download/:name')
+  .get(AttachmentController.download);
 // Attachment
 router.route('/attachment/:bugId')
   .get(AttachmentController.getAttachments)
