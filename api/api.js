@@ -51,7 +51,7 @@ app.use(bodyParser.json({
 app.use(fileUpload());
 
 // secure your private routes with jwt authentication middleware
-//app.all('/api/*', (req, res, next) => auth(req, res, next));
+app.all('/api/*', (req, res, next) => auth(req, res, next));
 
 // fill routes for express application
 app.use('/authenticate/', AuthRoutes);
