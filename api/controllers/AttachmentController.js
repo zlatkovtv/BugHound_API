@@ -1,22 +1,7 @@
 const Attachment = require("../models/Attachment");
 const Sequelize = require('sequelize');
-const multer = require('multer')
 
 Attachment.sync();
-
-const storage = multer.diskStorage({
-	destination: (req, file, cb) => {
-		cb(null, '../assets/uploads')
-	},
-	filename: (req, file, cb) => {
-		cb(null, file.originalname);
-	}
-});
-
-var upload = multer({
-	storage: storage
-})
-.single('attachment');
 
 exports.getAttachments = async (req, res) => {
 	var bugId = req.params.id;
@@ -32,7 +17,7 @@ exports.getAttachments = async (req, res) => {
 		.then(attachments => {
 			const token = "placeholder";
 			//authService().issue({ id: employee.id });
-			return res.status(200).json({ token, bugs: attachments });
+			return res.status(200).json({ token, attachments: attachments });
 		})
 		.catch(err => {
 			console.log(err);
@@ -40,24 +25,41 @@ exports.getAttachments = async (req, res) => {
 		});
 };
 
-exports.saveAttachment = async (req, res) => {
-	var bugId = req.params.id;
-
-	upload(req, res, function (err) {
-		if(!req.file) {
-			return res.status(400).json({ msg: "No file found in request." });
+function saveFiles(fileArray, bugId) {
+	return new Promise(function(resolve, reject) {
+		var path = './uploads/';
+		var filesToSave = [];
+		for (var i = 0; i < fileArray.length; i++) {
+			var file = fileArray[i];
+			file.mv('./uploads/' + file.name);		
+			filesToSave.push({
+				filename: path + file.name,
+				datesubmitted: new Date(),
+				bugid: bugId
+			});
 		}
 
-		const filePath = `${req.file.destination}/${req.file.filename}`
-		Attachment.create({
-			filename: filePath,
-			datesubmitted: new Date(),
-			bugid: bugId
+		resolve(filesToSave);
+	});
+}
+
+exports.saveAttachment = (req, res) => {
+	var bugId = req.params.bugId;
+
+	if (!req.files || !req.files.length === 0) {
+		return res.status(400).json({ msg: "No files found in request." });
+	}
+	
+	var fileArr = Object.values(req.files)
+	saveFiles(fileArr, bugId)
+	.then((fileArray) => {
+		Attachment.bulkCreate(fileArray, {
+			returning: true,
+			raw: true
 		})
-		.then(area => {
-			var plain = area.get({ plain: true });
+		.then(attachments => {
 			const token = 'PLACEHOLDER'
-			return res.status(201).json({ token, area: plain });
+			return res.status(201).json({ token, attachments: attachments });
 		})
 		.catch(Sequelize.ValidationError, err => {
 			return res.status(400).json({ msg: err.message });
@@ -65,8 +67,11 @@ exports.saveAttachment = async (req, res) => {
 		.catch(err => {
 			return res.status(500).json({ msg: err.message });
 		});
-		res.end('File is uploaded')
 	})
+	.catch(err => {
+		return res.status(500).send(err);
+	});
+	
 };
 
 exports.deleteAttachment = async (req, res) => {
@@ -74,17 +79,17 @@ exports.deleteAttachment = async (req, res) => {
 	if (!attachmentId) {
 		return res.status(400).json({ msg: "Attachment ID is missing." });
 	}
-	
+
 	Attachment.destroy({
 		where: {
 			id: attachmentId
 		}
 	})
-	.then(() => {
-		const token = 'PLACEHOLDER';
-		return res.status(200).json({ token, msg: "Attachment deleted successfully." });
-	})
-	.catch(err => {
-		return res.status(500).json({msg: err.message});
-	});
+		.then(() => {
+			const token = 'PLACEHOLDER';
+			return res.status(200).json({ token, msg: "Attachment deleted successfully." });
+		})
+		.catch(err => {
+			return res.status(500).json({ msg: err.message });
+		});
 };

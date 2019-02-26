@@ -6,6 +6,7 @@ const express = require('express');
 const helmet = require('helmet');
 const http = require('http');
 const cors = require('cors');
+const fileUpload = require('express-fileupload');
 
 /**
  * server configuration
@@ -38,8 +39,16 @@ app.use(helmet({
 }));
 
 // parsing the request bodys
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ 
+  extended: true,
+  limit: "50mb",
+  parameterLimit: 50000
+ }));
+app.use(bodyParser.json({
+  limit: "50mb"
+}));
+
+app.use(fileUpload());
 
 // secure your private routes with jwt authentication middleware
 //app.all('/api/*', (req, res, next) => auth(req, res, next));
