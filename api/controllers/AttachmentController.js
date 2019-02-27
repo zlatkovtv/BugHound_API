@@ -96,6 +96,6 @@ exports.deleteAttachment = async (req, res) => {
 
 exports.download = async (req,res) =>{
 	const name = req.params.name;
-	var directory = __dirname.substring(0,__dirname.length-11);
-	res.download(directory+"/assets/"+name);
+	var directory = __dirname.substring(0,__dirname.length-15);
+	res.download(directory+"/uploads/"+name);
 }
