@@ -13,7 +13,16 @@ const Area = db.define('area', {
 			len: [2, 32]
 		},
 		unique: true
-	}
+	},
+	programid: {
+		field: 'PROGRAMID',
+		type: Sequelize.INTEGER(11),
+		allowNull: true,
+		references: {
+			model: 'program',
+			key: 'ID'
+		}
+	},
 },
 	{
 		tableName: tableName,

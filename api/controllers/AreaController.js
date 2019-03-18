@@ -5,7 +5,14 @@ Area.sync();
 
 // TESTED
 exports.getAllAreas = async (req, res) => {
+	var programId = req.params.programId;
+	var condition = {};
+	if (programId) {
+		condition["programid"] = programId;
+	}
+
 	Area.findAll({
+		where: condition,
 		raw: true
 	})
 	.then(areas => {

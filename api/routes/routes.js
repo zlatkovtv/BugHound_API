@@ -32,8 +32,9 @@ router.route('/program/:name')
 router.route('/employeeprogram')
   .post(ProgramController.addEmployeeToProgram)
   .get(ProgramController.getAllEmployeeProgram);
+
 // Area
-router.route('/area/all')
+router.route('/area/:programId?')
   .get(AreaController.getAllAreas);
 
 router.route('/area')
@@ -55,6 +56,7 @@ router.route('/bug/:id')
   
 router.route('/download/:name')
   .get(AttachmentController.download);
+
 // Attachment
 router.route('/attachment/:bugId')
   .get(AttachmentController.getAttachments)
