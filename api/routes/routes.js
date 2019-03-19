@@ -34,8 +34,11 @@ router.route('/employeeprogram')
   .get(ProgramController.getAllEmployeeProgram);
 
 // Area
-router.route('/area/:programId?')
+router.route('/area/all')
   .get(AreaController.getAllAreas);
+
+router.route('/area/:programId?')
+  .get(AreaController.getArea);
 
 router.route('/area')
   .post(AreaController.createArea);

@@ -5,6 +5,19 @@ Area.sync();
 
 // TESTED
 exports.getAllAreas = async (req, res) => {
+	Area.findAll({
+		raw: true
+	})
+	.then(areas => {
+		const token = 'PLACEHOLDER'
+		return res.status(201).json({ token, areas: areas });
+	})
+	.catch(err => {
+		return res.status(500).json({msg: err.message});
+	});
+};
+
+exports.getArea = async (req, res) => {
 	var programId = req.params.programId;
 	var condition = {};
 	if (programId) {
@@ -23,6 +36,7 @@ exports.getAllAreas = async (req, res) => {
 		return res.status(500).json({msg: err.message});
 	});
 };
+
 
 // TESTED
 exports.createArea = async (req, res) => {
