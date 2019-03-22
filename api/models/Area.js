@@ -3,16 +3,21 @@ const db = require('../../config/SequelizeFactory');
 
 const tableName = 'area';
 const Area = db.define('area', {
+	id: {
+		type: Sequelize.INTEGER(11),
+		allowNull: false,
+		autoIncrement: true,
+		primaryKey: true,
+		field: 'ID'
+	},
 	name: {
 		type: Sequelize.STRING(32),
 		allowNull: false,
-		primaryKey: true,
 		field: 'NAME',
 		validate: {
 			notEmpty: true,
 			len: [2, 32]
-		},
-		unique: true
+		}
 	},
 	programid: {
 		field: 'PROGRAMID',
