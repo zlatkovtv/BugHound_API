@@ -88,11 +88,11 @@ const Bug = db.define('bug', {
 	},
 	area: {
 		field: 'AREA',
-		type: Sequelize.STRING(32),
+		type: Sequelize.INTEGER(11),
 		allowNull: true,
 		references: {
 			model: 'area',
-			key: 'NAME'
+			key: 'ID'
 		}
 	},
 	assignedto: {
